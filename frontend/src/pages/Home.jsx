@@ -96,7 +96,7 @@ export default function Home() {
       </div>
 
       {needsUpi && (
-        <section className="card mt-4 flex items-center gap-3 border-l-4 border-khata-wa">
+        <section className="card mt-4 flex flex-col gap-3 border-l-4 border-khata-wa sm:flex-row sm:items-center">
           <p className="flex-1 text-sm text-gray-700">{t('home.setupUpi')}</p>
           <Link to="/settings" className="btn-primary shrink-0 px-3 py-2 text-sm">
             {t('home.setupUpiBtn')}
@@ -105,7 +105,7 @@ export default function Home() {
       )}
 
       {needsBackup && (
-        <section className="card mt-4 flex items-center gap-3 border-l-4 border-sky-400">
+        <section className="card mt-4 flex flex-col gap-3 border-l-4 border-sky-400 sm:flex-row sm:items-center">
           <p className="flex-1 text-sm text-gray-700">{t('home.backup')}</p>
           <button
             type="button"

@@ -144,14 +144,16 @@ export default function CustomerLedger() {
       </section>
 
       {saved && (
-        <section role="status" className="no-print card mt-4 flex flex-wrap items-center gap-3 border-l-4 border-khata-wa">
-          <p className="flex-1 font-semibold text-khata-dark">✅ {t('ledger.saved')}</p>
-          <a href={savedHref} target="_blank" rel="noopener" className="btn-wa px-3 text-sm" onClick={() => setSavedId(null)}>
+        <section role="status" className="no-print card mt-4 border-l-4 border-khata-wa py-3">
+          <div className="flex items-center justify-between gap-2">
+            <p className="font-semibold text-khata-dark">✅ {t('ledger.saved')}</p>
+            <button type="button" className="btn-icon text-gray-400" aria-label={t('close')} onClick={() => setSavedId(null)}>
+              ✕
+            </button>
+          </div>
+          <a href={savedHref} target="_blank" rel="noopener" className="btn-wa mt-2 w-full" onClick={() => setSavedId(null)}>
             💬 {t('ledger.sendEntry')}
           </a>
-          <button type="button" className="btn-icon text-gray-400" aria-label={t('close')} onClick={() => setSavedId(null)}>
-            ✕
-          </button>
         </section>
       )}
 

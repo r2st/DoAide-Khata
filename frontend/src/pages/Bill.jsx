@@ -232,11 +232,11 @@ export default function Bill() {
         )}
 
         {lastSaved && (
-          <div role="status" className="flex flex-wrap items-center gap-3 rounded-xl border-l-4 border-khata-wa bg-emerald-50 p-3">
-            <p className="flex-1 font-semibold text-khata-dark">
+          <div role="status" className="rounded-xl border-l-4 border-khata-wa bg-emerald-50 p-3">
+            <p className="mb-2 font-semibold text-khata-dark">
               ✅ {t('bill.saved')} — {lastSaved.number}
             </p>
-            <a href={savedShareHref(lastSaved)} target="_blank" rel="noopener" className="btn-wa px-3 text-sm">
+            <a href={savedShareHref(lastSaved)} target="_blank" rel="noopener" className="btn-wa w-full">
               💬 {t('bill.shareSaved')}
             </a>
           </div>
