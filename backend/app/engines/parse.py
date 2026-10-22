@@ -45,6 +45,19 @@ RESPONSE_SCHEMA = {
 }
 
 
+# Hindi voice typing often returns Devanagari digits ("५००").
+DEVANAGARI_DIGITS = str.maketrans("०१२३४५६७८९", "0123456789")
+NUMBER = r"\d[\d,]*(?:\.\d{1,2})?"
+# "₹500", "rs 500", "500 rupaye" beat a bare number like the "2" in "2 kg".
+MONEY = re.compile(
+    rf"(?:₹|\brs\.?|\binr)\s*({NUMBER})|({NUMBER})\s*(?:rs\b|rupees?\b|rupaye\b|rupay\b|रुपये|रुपए|रुपया)",
+    re.IGNORECASE,
+)
+# "Ramesh ko 500 ...", "सीता से ...": the word(s) before ko/se/ne name the customer.
+NAME_BEFORE = re.compile(r"^\s*([^\d₹,]+?)\s+(?:ko|se|ne|को|से|ने)(?=\s|$)", re.IGNORECASE)
+NOT_NAMES = {"maine", "mene", "humne", "aaj", "kal", "मैंने", "हमने", "आज", "कल"}
+
+
 def _words(text: str) -> list[str]:
     return re.findall(r"[\wऀ-ॿ]+", text.lower())
 
@@ -58,10 +71,34 @@ def match_customer(text: str, customers: list[str]) -> str | None:
     return None
 
 
+def _amount(text: str) -> float | None:
+    money = MONEY.search(text)
+    if money:
+        raw = money.group(1) or money.group(2)
+    else:
+        numbers = re.findall(NUMBER, text)
+        if not numbers:
+            return None
+        raw = max(numbers, key=lambda n: float(n.replace(",", "")))
+    value = float(raw.replace(",", ""))
+    return value if value > 0 else None
+
+
+def guess_name(text: str) -> str | None:
+    m = NAME_BEFORE.match(text)
+    if not m:
+        return None
+    words = [w for w in m.group(1).split() if w.lower() not in NOT_NAMES]
+    if not words or len(words) > 3:
+        return None
+    name = " ".join(words)
+    return name[:1].upper() + name[1:]
+
+
 def rule_parse(text: str, customers: list[str]) -> dict:
+    text = text.translate(DEVANAGARI_DIGITS)
     words = _words(text)
-    amount_match = re.search(r"(?:₹|rs\.?|inr)?\s*(\d[\d,]*(?:\.\d{1,2})?)", text, re.IGNORECASE)
-    amount = float(amount_match.group(1).replace(",", "")) if amount_match else None
+    amount = _amount(text)
 
     # An explicit payment word wins ("500 wapas diye" is a payment); otherwise a
     # credit word, then "X se ..." hints money came from the customer.
@@ -74,7 +111,8 @@ def rule_parse(text: str, customers: list[str]) -> dict:
     else:
         tx_type = "gave"
 
-    return {"customer_name": match_customer(text, customers), "type": tx_type, "amount": amount, "note": "", "source": "rules"}
+    name = match_customer(text, customers) or guess_name(text)
+    return {"customer_name": name, "type": tx_type, "amount": amount, "note": "", "source": "rules"}
 
 
 def _clean(result: dict, text: str, customers: list[str]) -> dict:
@@ -86,7 +124,7 @@ def _clean(result: dict, text: str, customers: list[str]) -> dict:
         known = {c.lower(): c for c in customers}
         name = known.get(str(name).lower(), match_customer(str(name), customers) or str(name))
     else:
-        name = match_customer(text, customers)
+        name = match_customer(text, customers) or guess_name(text.translate(DEVANAGARI_DIGITS))
     note = str(result.get("note") or "")[:120]
     return {"customer_name": name, "type": tx_type, "amount": amount, "note": note, "source": "ai"}
 

@@ -3,6 +3,7 @@ import { todayISO } from '../lib/format'
 import { useT } from '../lib/i18n'
 
 export const NEW_CUSTOMER = '__new__'
+const QUICK_AMOUNTS = [100, 200, 500, 1000, 2000]
 
 // When `customers` is passed the form shows a customer picker (quick entry);
 // otherwise it's bound to the ledger it was opened from.
@@ -72,6 +73,21 @@ export default function TransactionForm({ initial = {}, customers, newCustomerNa
           autoFocus={!initial.amount}
           placeholder="0"
         />
+        <div className="mt-2 flex flex-wrap gap-2">
+          {QUICK_AMOUNTS.map((n) => (
+            <button
+              key={n}
+              type="button"
+              onClick={() => {
+                setAmount(String(n))
+                setError('')
+              }}
+              className={`min-h-[40px] rounded-full border px-3 text-sm font-semibold ${Number(amount) === n ? 'border-khata bg-emerald-50 text-khata-dark' : 'border-gray-200 bg-white text-gray-700'}`}
+            >
+              ₹{n.toLocaleString('en-IN')}
+            </button>
+          ))}
+        </div>
       </div>
       <div>
         <label className="label" htmlFor="tx-note">
@@ -95,7 +111,7 @@ export default function TransactionForm({ initial = {}, customers, newCustomerNa
         </button>
       </div>
       {onDelete && (
-        <button type="button" className="w-full py-2 text-sm font-medium text-red-600" onClick={onDelete}>
+        <button type="button" className="min-h-[44px] w-full text-sm font-medium text-red-600" onClick={onDelete}>
           {t('tx.delete')}
         </button>
       )}

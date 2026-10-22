@@ -3,9 +3,11 @@ import { HelmetProvider } from 'react-helmet-async'
 import { MemoryRouter } from 'react-router-dom'
 import { AppRoutes } from '../App'
 import { LangProvider } from '../lib/i18n'
+import { ONBOARDED_KEY } from '../lib/storage'
 import { KhataProvider, emptyState } from '../state/KhataContext'
 
-export function renderApp(path = '/', { state = emptyState, lang = 'en' } = {}) {
+export function renderApp(path = '/', { state = emptyState, lang = 'en', onboarding = false } = {}) {
+  if (!onboarding) localStorage.setItem(ONBOARDED_KEY, 'true')
   return render(
     <HelmetProvider>
       <LangProvider lang={lang}>

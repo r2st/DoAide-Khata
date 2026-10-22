@@ -1,7 +1,8 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import BackLink from '../components/BackLink'
 import Seo from '../components/Seo'
 import { useT } from '../lib/i18n'
+import { ONBOARDED_KEY, removeKey } from '../lib/storage'
 
 export const FAQ = [
   {
@@ -57,6 +58,7 @@ export const FAQ = [
 
 export default function Help() {
   const { t, lang } = useT()
+  const navigate = useNavigate()
   const faqLd = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -76,19 +78,29 @@ export default function Help() {
         <div className="space-y-3">
           {FAQ.map((f) => (
             <details key={f.q.en} className="card group">
-              <summary className="cursor-pointer list-none font-semibold">
-                <span className="mr-2 text-khata group-open:rotate-90">›</span>
+              <summary className="flex min-h-[32px] cursor-pointer list-none items-center font-semibold">
+                <span className="mr-2 inline-block text-xl text-khata transition-transform group-open:rotate-90">›</span>
                 {f.q[lang]}
               </summary>
               <p className="mt-2 text-sm text-gray-700">{f.a[lang]}</p>
             </details>
           ))}
         </div>
-        <p className="mt-6 text-center">
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
+          <button
+            type="button"
+            className="btn-ghost"
+            onClick={() => {
+              removeKey(ONBOARDED_KEY)
+              navigate('/?guide=1')
+            }}
+          >
+            🎓 {t('onb.replay')}
+          </button>
           <Link to="/" className="btn-primary">
             {t('goHome')}
           </Link>
-        </p>
+        </div>
       </article>
     </>
   )

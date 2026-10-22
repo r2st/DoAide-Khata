@@ -1,7 +1,9 @@
 import { useEffect } from 'react'
+import { useT } from '../lib/i18n'
 
 // Bottom sheet on phones, centred dialog on larger screens.
 export default function Modal({ title, onClose, children }) {
+  const { t } = useT()
   useEffect(() => {
     const onKey = (e) => e.key === 'Escape' && onClose()
     document.addEventListener('keydown', onKey)
@@ -19,7 +21,7 @@ export default function Modal({ title, onClose, children }) {
       >
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-lg font-bold text-gray-900">{title}</h2>
-          <button type="button" onClick={onClose} aria-label="Close" className="rounded-full p-2 text-gray-500 hover:bg-gray-100">
+          <button type="button" onClick={onClose} aria-label={t('close')} className="btn-icon text-gray-500 hover:bg-gray-100">
             ✕
           </button>
         </div>

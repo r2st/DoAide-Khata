@@ -1,4 +1,4 @@
-import { fireEvent, screen, waitFor, within } from '@testing-library/react'
+import { cleanup, fireEvent, screen, waitFor, within } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { api } from '../lib/api'
 import { DATA_KEY } from '../state/KhataContext'
@@ -110,6 +110,79 @@ describe('khata flow', () => {
   })
 })
 
+describe('onboarding', () => {
+  it('guides a first-time user, saves shop details and opens the add-customer form', () => {
+    renderApp('/', { onboarding: true })
+    const guide = screen.getByRole('dialog', { name: 'Welcome to DoAide Khata' })
+    fireEvent.click(within(guide).getByRole('button', { name: 'English' }))
+    expect(screen.getByText('How it works — 3 easy steps')).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: /Next/ }))
+
+    fireEvent.change(screen.getByLabelText('UPI ID (for payment links)'), { target: { value: 'bad' } })
+    fireEvent.click(screen.getByRole('button', { name: /Add my first customer/ }))
+    expect(screen.getByRole('alert')).toHaveTextContent('UPI ID looks incorrect')
+
+    fireEvent.change(screen.getByLabelText('Shop name'), { target: { value: 'Sharma Store' } })
+    fireEvent.change(screen.getByLabelText('UPI ID (for payment links)'), { target: { value: 'sharma@okaxis' } })
+    fireEvent.click(screen.getByRole('button', { name: /Add my first customer/ }))
+
+    expect(screen.getByRole('dialog', { name: 'Add customer' })).toBeInTheDocument()
+    expect(localStorage.getItem('khata:onboarded')).toBe('true')
+    expect(JSON.parse(localStorage.getItem(DATA_KEY)).settings).toMatchObject({ shopName: 'Sharma Store', upiId: 'sharma@okaxis' })
+  })
+
+  it('can be skipped and is not shown to users who already have customers', () => {
+    renderApp('/', { onboarding: true })
+    fireEvent.click(screen.getByRole('button', { name: 'Skip' }))
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    cleanup()
+    localStorage.clear()
+    renderApp('/', { onboarding: true, state: { customers: [customer('a', 'Ramesh')], transactions: [], bills: [], settings: {} } })
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  })
+})
+
+describe('fewer steps + WhatsApp', () => {
+  it('saves a new customer with their old udhar in one go', async () => {
+    renderApp('/')
+    fireEvent.click(screen.getAllByRole('button', { name: /Add customer/ })[0])
+    fireEvent.change(screen.getByLabelText('Name'), { target: { value: 'Geeta' } })
+    fireEvent.change(screen.getByLabelText('Udhar given now ₹ (optional)'), { target: { value: '750' } })
+    fireEvent.click(screen.getByRole('button', { name: 'Save' }))
+    expect(await screen.findByRole('heading', { name: 'Geeta' })).toBeInTheDocument()
+    expect(within(screen.getByTestId('ledger-balance')).getByText('₹750')).toBeInTheDocument()
+    expect(screen.getByText('Old balance')).toBeInTheDocument()
+  })
+
+  it('offers to send a saved entry to the customer on WhatsApp', () => {
+    renderApp('/customer/a', {
+      state: { customers: [customer('a', 'Ramesh', '9876543210')], transactions: [tx('t1', 'a', 'gave', 500, '2026-10-01')], bills: [], settings: {} },
+    })
+    fireEvent.click(screen.getByRole('button', { name: 'Got ₹ (Payment)' }))
+    fireEvent.click(screen.getByRole('button', { name: '₹200' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Save' }))
+    const send = screen.getByRole('link', { name: /Send to customer on WhatsApp/ })
+    expect(send.getAttribute('href')).toMatch(/^https:\/\/wa\.me\/919876543210\?text=/)
+    expect(decodeURIComponent(send.getAttribute('href'))).toContain('Payment of ₹200 received')
+    expect(decodeURIComponent(send.getAttribute('href'))).toContain('Total due: ₹300')
+  })
+
+  it('lets you remind top debtors from the dashboard and nudges for a UPI ID', () => {
+    renderApp('/', {
+      state: { customers: [customer('a', 'Ramesh', '9876543210')], transactions: [tx('1', 'a', 'gave', 400, today())], bills: [], settings: {} },
+    })
+    const remind = screen.getByRole('link', { name: 'WhatsApp reminder to Ramesh' })
+    expect(decodeURIComponent(remind.getAttribute('href'))).toContain('₹400 outstanding')
+    expect(screen.getByRole('link', { name: 'Add UPI ID' })).toHaveAttribute('href', '/settings')
+  })
+
+  it('has a share-the-app link in the footer', () => {
+    renderApp('/')
+    const share = screen.getByRole('link', { name: /Share DoAide Khata on WhatsApp/ })
+    expect(decodeURIComponent(share.getAttribute('href'))).toContain('https://khata.doaide.com')
+  })
+})
+
 describe('quick entry', () => {
   it('turns a sentence into a prefilled entry and creates the customer', async () => {
     const parse = vi.spyOn(api, 'parse').mockResolvedValue({ customer_name: 'Mohan', type: 'gave', amount: 450, note: 'Chawal' })
@@ -168,6 +241,9 @@ describe('bill', () => {
     expect(billPdf.mock.calls[0][0]).toMatchObject({ customer: { name: 'Ramesh' }, items: [{ name: 'Atta', qty: 2, rate: 100, gstRate: 18 }] })
     expect(await screen.findByText(/Bill saved/)).toBeInTheDocument()
     expect(screen.getByTestId('bill-number')).toHaveTextContent('-002')
+    const sendSaved = screen.getByRole('link', { name: /Send this bill on WhatsApp/ })
+    expect(decodeURIComponent(sendSaved.getAttribute('href'))).toContain('Atta × 2 = ₹236')
+    expect(screen.getByRole('link', { name: /Send INV-.*-001 on WhatsApp/ })).toBeInTheDocument()
 
     const saved = JSON.parse(localStorage.getItem(DATA_KEY))
     expect(saved.transactions[0]).toMatchObject({ customerId: 'a', type: 'gave', amount: 236 })
@@ -176,7 +252,7 @@ describe('bill', () => {
   it('requires at least one complete item', () => {
     renderApp('/bill')
     fireEvent.click(screen.getByRole('button', { name: /Save & PDF/ }))
-    expect(screen.getByRole('status')).toHaveTextContent('at least one item')
+    expect(screen.getByRole('alert')).toHaveTextContent('at least one item')
   })
 })
 

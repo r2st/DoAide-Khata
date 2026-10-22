@@ -4,7 +4,7 @@ import { computeBill, isValidGSTIN, nextBillNumber } from '../lib/gst'
 import { STRINGS, translate } from '../lib/i18n'
 import { customerBalances, dashboard, runningLedger } from '../lib/ledger'
 import { mergeLedgers, mergeRecords } from '../lib/merge'
-import { isValidIndianMobile, normalizePhone, reminderMessage, upiLink, whatsappLink } from '../lib/whatsapp'
+import { entryMessage, isValidIndianMobile, isValidUpi, normalizePhone, reminderMessage, upiLink, whatsappLink } from '../lib/whatsapp'
 import { reducer, emptyState } from '../state/KhataContext'
 import { customer, tx } from './utils'
 
@@ -101,6 +101,24 @@ describe('whatsapp', () => {
   it('builds wa.me links with and without a number', () => {
     expect(whatsappLink('9876543210', 'hi there')).toBe('https://wa.me/919876543210?text=hi%20there')
     expect(whatsappLink('', 'x')).toBe('https://wa.me/?text=x')
+  })
+})
+
+describe('entry message', () => {
+  it('confirms a payment with the remaining balance and a UPI link', () => {
+    const msg = entryMessage({ customerName: 'Ramesh', type: 'received', amount: 200, balance: 300, date: '1 Oct 2026', shopName: 'Sharma Store', upiId: 'shop@okaxis' })
+    expect(msg).toContain('Payment of ₹200 received')
+    expect(msg).toContain('Total due: ₹300')
+    expect(msg).toContain('upi://pay?pa=shop%40okaxis')
+  })
+  it('says dues are cleared in Hindi and skips the UPI link', () => {
+    const msg = entryMessage({ lang: 'hi', customerName: 'रमेश', type: 'received', amount: 500, balance: 0, date: '1 अक्टू॰', upiId: 'shop@okaxis' })
+    expect(msg).toContain('हिसाब बराबर')
+    expect(msg).not.toContain('upi://')
+  })
+  it('validates UPI IDs', () => {
+    expect(isValidUpi('sharma@okaxis')).toBe(true)
+    expect(isValidUpi('not-a-upi')).toBe(false)
   })
 })
 

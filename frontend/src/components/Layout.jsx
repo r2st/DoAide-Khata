@@ -1,5 +1,6 @@
 import { Link, NavLink, Outlet } from 'react-router-dom'
 import { useT } from '../lib/i18n'
+import { appShareMessage, whatsappLink } from '../lib/whatsapp'
 import { useKhata } from '../state/KhataContext'
 
 const NAV = [
@@ -15,7 +16,7 @@ export function LangToggle({ className = '' }) {
     <button
       type="button"
       onClick={() => setLang(lang === 'hi' ? 'en' : 'hi')}
-      className={`rounded-full border border-white/40 px-3 py-1 text-sm font-semibold ${className}`}
+      className={`min-h-[40px] rounded-full border border-white/40 px-4 py-1.5 text-sm font-semibold ${className}`}
     >
       {t('switchLang')}
     </button>
@@ -23,7 +24,7 @@ export function LangToggle({ className = '' }) {
 }
 
 export default function Layout() {
-  const { t } = useT()
+  const { t, lang } = useT()
   const { auth, sync } = useKhata()
 
   return (
@@ -61,15 +62,25 @@ export default function Layout() {
         </nav>
       </header>
 
-      <main className="flex-1 px-4 pb-28 pt-4 sm:pb-8">
+      <main className="flex-1 px-4 pb-32 pt-4 sm:pb-8">
         <Outlet />
       </main>
 
-      <footer className="no-print px-4 pb-24 text-center text-xs text-gray-500 sm:pb-6">
+      <footer className="no-print px-4 pb-28 text-center text-xs text-gray-500 sm:pb-6">
         {!auth && <p className="mb-2">{t('localNote')}</p>}
         {/* Plain link: /guides is static HTML outside the SPA. */}
         <p className="mb-3">
-          <a href="/guides" className="font-semibold text-khata-dark underline">
+          <a
+            href={whatsappLink('', appShareMessage(lang))}
+            target="_blank"
+            rel="noopener"
+            className="btn-wa px-4 py-2 text-sm"
+          >
+            💬 {t('share.app')}
+          </a>
+        </p>
+        <p className="mb-3">
+          <a href="/guides" className="inline-block py-2 font-semibold text-khata-dark underline">
             {t('nav.guides')}
           </a>
         </p>
@@ -92,10 +103,10 @@ export default function Layout() {
               to={n.to}
               end={n.end}
               className={({ isActive }) =>
-                `flex flex-col items-center gap-0.5 py-2 text-xs font-medium ${isActive ? 'text-khata' : 'text-gray-500'}`
+                `flex h-16 flex-col items-center justify-center gap-0.5 text-xs font-semibold ${isActive ? 'bg-emerald-50 text-khata' : 'text-gray-500'}`
               }
             >
-              <span className="text-xl" aria-hidden>
+              <span className="text-2xl leading-none" aria-hidden>
                 {n.icon}
               </span>
               {t(n.key)}

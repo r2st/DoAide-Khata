@@ -38,6 +38,7 @@ export default function Bill() {
   const [addToKhata, setAddToKhata] = useState(true)
   const [message, setMessage] = useState(null)
   const [busy, setBusy] = useState(false)
+  const [lastSaved, setLastSaved] = useState(null)
 
   const number = nextBillNumber(state.bills)
   const totals = useMemo(() => computeBill(validItems(items), interState), [items, interState])
@@ -84,7 +85,8 @@ export default function Bill() {
       addTransaction({ customerId: customer.id, type: 'gave', amount: totals.total, note: `${t('nav.bill')} ${number}`, date })
     }
     setItems([blankItem()])
-    setMessage({ tone: 'ok', text: `${t('bill.saved')} — ${number}` })
+    setLastSaved(bill)
+    setMessage(null)
     await downloadPdf(bill)
   }
 
@@ -92,6 +94,12 @@ export default function Bill() {
     customer?.phone,
     billShareText({ shop, number, date, customerName: customer?.name, totals, lang }),
   )
+  // Saved bills carry their own items, so they can be re-shared after the form resets.
+  const savedShareHref = (b) =>
+    whatsappLink(
+      b.customer?.phone,
+      billShareText({ shop, number: b.number, date: b.date, customerName: b.customer?.name, totals: computeBill(b.items, b.interState), lang }),
+    )
 
   return (
     <>
@@ -158,7 +166,7 @@ export default function Bill() {
                     maxLength={120}
                   />
                   {items.length > 1 && (
-                    <button type="button" className="px-2 text-gray-400" aria-label={t('bill.remove')} onClick={() => setItems((l) => l.filter((_, j) => j !== i))}>
+                    <button type="button" className="btn-icon text-gray-400 hover:bg-gray-100" aria-label={t('bill.remove')} onClick={() => setItems((l) => l.filter((_, j) => j !== i))}>
                       ✕
                     </button>
                   )}
@@ -178,13 +186,13 @@ export default function Bill() {
               </fieldset>
             ))}
           </div>
-          <button type="button" className="mt-2 text-sm font-semibold text-khata" onClick={() => setItems((l) => [...l, blankItem()])}>
+          <button type="button" className="btn-ghost mt-3 w-full border-dashed text-khata" onClick={() => setItems((l) => [...l, blankItem()])}>
             {t('bill.addItem')}
           </button>
         </div>
 
-        <label className="flex items-center gap-2 text-sm">
-          <input type="checkbox" checked={interState} onChange={(e) => setInterState(e.target.checked)} className="h-4 w-4 accent-khata" />
+        <label className="flex min-h-[44px] items-center gap-3 text-sm">
+          <input type="checkbox" checked={interState} onChange={(e) => setInterState(e.target.checked)} className="h-5 w-5 accent-khata" />
           {t('bill.interState')}
         </label>
 
@@ -217,14 +225,25 @@ export default function Bill() {
         </dl>
 
         {customer && (
-          <label className="flex items-center gap-2 text-sm">
-            <input type="checkbox" checked={addToKhata} onChange={(e) => setAddToKhata(e.target.checked)} className="h-4 w-4 accent-khata" />
+          <label className="flex min-h-[44px] items-center gap-3 text-sm">
+            <input type="checkbox" checked={addToKhata} onChange={(e) => setAddToKhata(e.target.checked)} className="h-5 w-5 accent-khata" />
             {t('bill.addToKhata')}
           </label>
         )}
 
+        {lastSaved && (
+          <div role="status" className="flex flex-wrap items-center gap-3 rounded-xl border-l-4 border-khata-wa bg-emerald-50 p-3">
+            <p className="flex-1 font-semibold text-khata-dark">
+              ✅ {t('bill.saved')} — {lastSaved.number}
+            </p>
+            <a href={savedShareHref(lastSaved)} target="_blank" rel="noopener" className="btn-wa px-3 text-sm">
+              💬 {t('bill.shareSaved')}
+            </a>
+          </div>
+        )}
+
         {message && (
-          <p role="status" className={`text-sm ${message.tone === 'error' ? 'text-red-600' : 'text-khata'}`}>
+          <p role="alert" className={`text-sm ${message.tone === 'error' ? 'text-red-600' : 'text-khata'}`}>
             {message.text}
           </p>
         )}
@@ -251,9 +270,18 @@ export default function Bill() {
                     {formatDate(b.date, lang)} · {b.customer?.name || t('bill.walkIn')}
                   </span>
                 </span>
-                <span className="flex items-center gap-3">
-                  <span className="font-semibold">{formatINR(b.total)}</span>
-                  <button type="button" className="text-khata" onClick={() => downloadPdf(b)} aria-label={`PDF ${b.number}`}>
+                <span className="flex items-center gap-1">
+                  <span className="mr-1 font-semibold">{formatINR(b.total)}</span>
+                  <a
+                    href={savedShareHref(b)}
+                    target="_blank"
+                    rel="noopener"
+                    className="btn-icon bg-khata-wa/10"
+                    aria-label={t('bill.shareOne', { number: b.number })}
+                  >
+                    💬
+                  </a>
+                  <button type="button" className="btn-icon text-khata hover:bg-gray-100" onClick={() => downloadPdf(b)} aria-label={`PDF ${b.number}`} disabled={busy}>
                     📄
                   </button>
                 </span>

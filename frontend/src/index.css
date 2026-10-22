@@ -11,7 +11,7 @@
 
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 font-semibold transition active:scale-[0.98] disabled:opacity-50;
+    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl px-4 py-3 font-semibold transition active:scale-[0.98] disabled:opacity-50;
   }
   .btn-primary {
     @apply btn bg-khata text-white hover:bg-khata-dark;
@@ -23,13 +23,23 @@
     @apply btn bg-khata-wa text-white hover:brightness-95;
   }
   .input {
-    @apply w-full rounded-xl border border-gray-300 bg-white px-3 py-3 text-base outline-none focus:border-khata focus:ring-2 focus:ring-khata/20;
+    @apply min-h-[48px] w-full rounded-xl border border-gray-300 bg-white px-3 py-3 text-base outline-none focus:border-khata focus:ring-2 focus:ring-khata/20;
   }
   .label {
     @apply mb-1 block text-sm font-medium text-gray-700;
   }
+  .btn-icon {
+    @apply inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-lg transition active:scale-95;
+  }
   .card {
     @apply rounded-2xl bg-white p-4 shadow-sm ring-1 ring-black/5;
+  }
+}
+
+@layer utilities {
+  /* Fixed bars sit just above the mobile bottom nav, which grows by the iPhone home-indicator inset. */
+  .above-nav {
+    bottom: calc(64px + env(safe-area-inset-bottom));
   }
 }
 

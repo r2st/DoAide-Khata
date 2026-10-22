@@ -4,6 +4,8 @@ import Seo from '../components/Seo'
 import { api } from '../lib/api'
 import { isValidGSTIN } from '../lib/gst'
 import { useT } from '../lib/i18n'
+import { downloadBackup } from '../lib/storage'
+import { isValidUpi } from '../lib/whatsapp'
 import { useKhata } from '../state/KhataContext'
 
 const FIELDS = [
@@ -21,8 +23,6 @@ const readText = (file) =>
     reader.onerror = () => reject(reader.error)
     reader.readAsText(file)
   })
-
-export const isValidUpi = (upi) => /^[\w.-]{2,}@[a-zA-Z]{2,}$/.test(upi.trim())
 
 export default function Settings() {
   const { t, lang, setLang } = useT()
@@ -56,15 +56,6 @@ export default function Settings() {
     (credential) => signIn(credential).catch((e) => setMessage({ tone: 'error', text: e.message })),
     [signIn],
   )
-
-  function exportBackup() {
-    const blob = new Blob([JSON.stringify({ app: 'doaide-khata', version: 1, ...state }, null, 2)], { type: 'application/json' })
-    const a = document.createElement('a')
-    a.href = URL.createObjectURL(blob)
-    a.download = `khata-backup-${new Date().toISOString().slice(0, 10)}.json`
-    a.click()
-    URL.revokeObjectURL(a.href)
-  }
 
   async function restore(e) {
     const file = e.target.files?.[0]
@@ -143,7 +134,7 @@ export default function Settings() {
           <>
             <p className="text-sm text-gray-700">{t('settings.signedIn', { email: auth.email })}</p>
             {sync.status === 'error' && <p className="text-sm text-amber-700">{t('sync.error')}</p>}
-            {sync.lastSync && <p className="text-xs text-gray-500">{t('settings.lastSync', { time: sync.lastSync.toLocaleTimeString() })}</p>}
+            {sync.lastSync && <p className="text-xs text-gray-500">{t('settings.lastSync', { time: sync.lastSync.toLocaleTimeString(lang === 'hi' ? 'hi-IN' : 'en-IN', { hour: 'numeric', minute: '2-digit' }) })}</p>}
             <div className="flex gap-3">
               <button type="button" className="btn-primary flex-1" onClick={syncNow} disabled={sync.status === 'syncing'}>
                 {sync.status === 'syncing' ? t('settings.syncing') : t('settings.syncNow')}
@@ -164,7 +155,7 @@ export default function Settings() {
           </>
         )}
         <div className="flex gap-3 border-t border-gray-100 pt-3">
-          <button type="button" className="btn-ghost flex-1 text-sm" onClick={exportBackup}>
+          <button type="button" className="btn-ghost flex-1 text-sm" onClick={() => downloadBackup(state)}>
             ⬇️ {t('settings.export')}
           </button>
           <button type="button" className="btn-ghost flex-1 text-sm" onClick={() => fileInput.current?.click()}>

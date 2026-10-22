@@ -86,6 +86,23 @@ class TestRuleParse:
     def test_no_amount(self):
         assert rule_parse("hello", [])["amount"] is None
 
+    def test_devanagari_digits(self):
+        r = rule_parse("रमेश को ५०० उधार दिया", ["रमेश"])
+        assert r["amount"] == 500.0
+        assert r["type"] == "gave"
+
+    def test_rupee_marked_amount_beats_quantity(self):
+        assert rule_parse("Ramesh ko 2 kg cheeni 90 rupaye udhar", self.customers)["amount"] == 90.0
+        assert rule_parse("Ramesh ko 2 packet ₹40", self.customers)["amount"] == 40.0
+
+    def test_largest_number_without_currency(self):
+        assert rule_parse("Ramesh ko 2 packet 50 udhar", self.customers)["amount"] == 50.0
+
+    def test_guesses_new_customer_name(self):
+        assert rule_parse("mohan ko 450 udhar diya", self.customers)["customer_name"] == "Mohan"
+        assert rule_parse("गीता से 200 मिले", [])["customer_name"] == "गीता"
+        assert rule_parse("maine 300 diye", [])["customer_name"] is None
+
 
 class TestPdfHelpers:
     def test_running_balance_sorted_by_date(self):

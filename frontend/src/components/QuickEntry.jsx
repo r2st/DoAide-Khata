@@ -62,11 +62,16 @@ export default function QuickEntry() {
     rec.start()
   }
 
+  function close() {
+    setDraft(null)
+    setError('')
+  }
+
   function save({ customerId, ...tx }) {
     let id = customerId
     if (id === NEW_CUSTOMER) id = addCustomer({ name: draft.newCustomerName }).id
     addTransaction({ ...tx, customerId: id })
-    setDraft(null)
+    close()
     setText('')
     navigate(`/customer/${id}`)
   }
@@ -82,7 +87,7 @@ export default function QuickEntry() {
         }}
       >
         <input
-          className="input min-w-0 flex-1 py-2.5"
+          className="input min-w-0 flex-1"
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder={listening ? t('quick.listening') : t('quick.placeholder')}
@@ -94,25 +99,25 @@ export default function QuickEntry() {
             type="button"
             onClick={listen}
             aria-label={t('quick.listen')}
-            className={`btn px-3 py-2.5 ${listening ? 'animate-pulse bg-red-500 text-white' : 'bg-emerald-50 text-khata'}`}
+            className={`btn px-3 text-xl ${listening ? 'animate-pulse bg-red-500 text-white' : 'bg-emerald-50 text-khata'}`}
           >
             🎤
           </button>
         )}
-        <button type="submit" className="btn-primary px-4 py-2.5" disabled={busy || !text.trim()}>
+        <button type="submit" className="btn-primary px-4" disabled={busy || !text.trim()}>
           {busy ? '…' : t('quick.go')}
         </button>
       </form>
       {busy && <p className="mt-2 text-xs text-gray-500">{t('quick.parsing')}</p>}
       {draft && (
-        <Modal title={t('quick.title')} onClose={() => setDraft(null)}>
+        <Modal title={t('quick.title')} onClose={close}>
           {error && <p className="mb-3 text-sm text-amber-700">{error}</p>}
           <TransactionForm
             initial={draft}
             customers={customers}
             newCustomerName={draft.newCustomerName}
             onSubmit={save}
-            onCancel={() => setDraft(null)}
+            onCancel={close}
           />
         </Modal>
       )}

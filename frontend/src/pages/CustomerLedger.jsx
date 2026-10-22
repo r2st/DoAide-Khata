@@ -10,7 +10,7 @@ import { api, deliverPdf } from '../lib/api'
 import { formatDate, formatINR, initials } from '../lib/format'
 import { useT } from '../lib/i18n'
 import { runningLedger } from '../lib/ledger'
-import { reminderMessage, whatsappLink } from '../lib/whatsapp'
+import { entryMessage, reminderMessage, whatsappLink } from '../lib/whatsapp'
 import { useKhata } from '../state/KhataContext'
 
 export default function CustomerLedger() {
@@ -22,6 +22,7 @@ export default function CustomerLedger() {
   const [editingCustomer, setEditingCustomer] = useState(false)
   const [pdfError, setPdfError] = useState('')
   const [pdfBusy, setPdfBusy] = useState(false)
+  const [savedId, setSavedId] = useState(null) // last new entry, offered for sharing on WhatsApp
 
   const customer = state.customers.find((c) => c.id === id && !c.deleted)
   const rows = useMemo(() => runningLedger(state.transactions, id), [state.transactions, id])
@@ -62,7 +63,7 @@ export default function CustomerLedger() {
 
   function saveTx(data) {
     if (form.tx) updateTransaction(form.tx.id, { type: data.type, amount: data.amount, note: data.note, date: data.date })
-    else addTransaction({ ...data, customerId: id })
+    else setSavedId(addTransaction({ ...data, customerId: id }).id)
     setForm(null)
   }
 
@@ -80,6 +81,23 @@ export default function CustomerLedger() {
     }
   }
 
+  const saved = savedId && rows.find((r) => r.id === savedId)
+  const savedHref =
+    saved &&
+    whatsappLink(
+      customer.phone,
+      entryMessage({
+        lang,
+        customerName: customer.name,
+        type: saved.type,
+        amount: saved.amount,
+        balance,
+        date: formatDate(saved.date, lang),
+        shopName: settings.shopName,
+        upiId: settings.upiId,
+      }),
+    )
+
   let lastDate = null
 
   return (
@@ -96,7 +114,7 @@ export default function CustomerLedger() {
             <h1 className="truncate text-xl font-bold">{customer.name}</h1>
             {customer.phone && <p className="text-sm text-gray-500">{customer.phone}</p>}
           </div>
-          <button type="button" className="rounded-full p-2 text-gray-500 hover:bg-gray-100" onClick={() => setEditingCustomer(true)} aria-label={t('customer.edit')}>
+          <button type="button" className="btn-icon text-gray-500 hover:bg-gray-100" onClick={() => setEditingCustomer(true)} aria-label={t('customer.edit')}>
             ✏️
           </button>
         </div>
@@ -108,15 +126,16 @@ export default function CustomerLedger() {
             href={reminder}
             target="_blank"
             rel="noopener"
-            className={`btn-wa px-2 py-2.5 text-sm ${balance > 0 ? '' : 'pointer-events-none opacity-50'}`}
+            className={`btn-wa px-2 text-sm ${balance > 0 ? '' : 'pointer-events-none opacity-50'}`}
             aria-disabled={balance <= 0}
+            tabIndex={balance > 0 ? undefined : -1}
           >
             💬 {t('ledger.remind')}
           </a>
-          <button type="button" className="btn-ghost px-2 py-2.5 text-sm" onClick={exportPdf} disabled={pdfBusy || rows.length === 0}>
+          <button type="button" className="btn-ghost px-2 text-sm" onClick={exportPdf} disabled={pdfBusy || rows.length === 0}>
             📄 {pdfBusy ? '…' : t('ledger.pdf')}
           </button>
-          <a href={customer.phone ? `tel:${customer.phone}` : undefined} className={`btn-ghost px-2 py-2.5 text-sm ${customer.phone ? '' : 'pointer-events-none opacity-50'}`}>
+          <a href={customer.phone ? `tel:${customer.phone}` : undefined} className={`btn-ghost px-2 text-sm ${customer.phone ? '' : 'pointer-events-none opacity-50'}`} aria-disabled={!customer.phone}>
             📞 {t('ledger.call')}
           </a>
         </div>
@@ -124,7 +143,19 @@ export default function CustomerLedger() {
         {pdfError && <p className="mt-2 text-center text-sm text-red-600">{pdfError}</p>}
       </section>
 
-      <section className="mt-4 rounded-2xl bg-khata-chat p-3" aria-label="Ledger">
+      {saved && (
+        <section role="status" className="no-print card mt-4 flex flex-wrap items-center gap-3 border-l-4 border-khata-wa">
+          <p className="flex-1 font-semibold text-khata-dark">✅ {t('ledger.saved')}</p>
+          <a href={savedHref} target="_blank" rel="noopener" className="btn-wa px-3 text-sm" onClick={() => setSavedId(null)}>
+            💬 {t('ledger.sendEntry')}
+          </a>
+          <button type="button" className="btn-icon text-gray-400" aria-label={t('close')} onClick={() => setSavedId(null)}>
+            ✕
+          </button>
+        </section>
+      )}
+
+      <section className="mt-4 rounded-2xl bg-khata-chat p-3" aria-label={t('ledger.label')}>
         {rows.length === 0 && <p className="py-8 text-center text-sm text-gray-600">{t('tx.empty')}</p>}
         <ul className="space-y-2">
           {rows.map((tx) => {
@@ -142,7 +173,7 @@ export default function CustomerLedger() {
                   <button
                     type="button"
                     onClick={() => setForm({ tx })}
-                    className={`max-w-[80%] rounded-2xl px-3 py-2 text-left shadow-sm ${gave ? 'rounded-tr-sm bg-red-50' : 'rounded-tl-sm bg-white'}`}
+                    className={`min-w-[45%] max-w-[80%] rounded-2xl px-3 py-2 text-left shadow-sm active:brightness-95 ${gave ? 'rounded-tr-sm bg-red-50' : 'rounded-tl-sm bg-white'}`}
                   >
                     <span className="block text-[11px] font-medium text-gray-500">{gave ? t('tx.gave') : t('tx.received')}</span>
                     <span className={`block text-lg font-bold ${gave ? 'text-red-600' : 'text-khata'}`}>{formatINR(tx.amount)}</span>
@@ -155,14 +186,14 @@ export default function CustomerLedger() {
           })}
         </ul>
       </section>
-      <div className="h-16 sm:hidden" aria-hidden />
+      <div className="h-20 sm:hidden" aria-hidden />
 
-      <div className="no-print fixed inset-x-0 bottom-[60px] z-20 border-t border-gray-200 bg-white/95 px-4 py-3 backdrop-blur sm:static sm:mt-4 sm:border-0 sm:bg-transparent sm:p-0">
+      <div className="no-print above-nav fixed inset-x-0 z-20 border-t border-gray-200 bg-white/95 px-4 py-3 backdrop-blur sm:static sm:mt-4 sm:border-0 sm:bg-transparent sm:p-0">
         <div className="mx-auto flex max-w-2xl gap-3">
-          <button type="button" className="btn flex-1 bg-red-600 text-white hover:bg-red-700" onClick={() => setForm({ type: 'gave' })}>
+          <button type="button" className="btn min-h-[56px] flex-1 bg-red-600 text-lg text-white hover:bg-red-700" onClick={() => setForm({ type: 'gave' })}>
             {t('tx.gaveBtn')}
           </button>
-          <button type="button" className="btn-primary flex-1" onClick={() => setForm({ type: 'received' })}>
+          <button type="button" className="btn-primary min-h-[56px] flex-1 text-lg" onClick={() => setForm({ type: 'received' })}>
             {t('tx.receivedBtn')}
           </button>
         </div>
@@ -184,7 +215,7 @@ export default function CustomerLedger() {
             }}
             onCancel={() => setEditingCustomer(false)}
           />
-          <button type="button" className="mt-3 w-full py-2 text-sm font-medium text-red-600" onClick={removeCustomer}>
+          <button type="button" className="mt-3 min-h-[44px] w-full text-sm font-medium text-red-600" onClick={removeCustomer}>
             {t('customer.delete')}
           </button>
         </Modal>

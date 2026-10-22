@@ -72,6 +72,13 @@ export function KhataProvider({ children, initialState }) {
     writeJSON(DATA_KEY, state)
   }, [state])
 
+  // Without sign-in the browser is the only copy, so ask it not to evict our storage
+  // once there is something worth keeping.
+  const hasData = state.customers.length > 0
+  useEffect(() => {
+    if (hasData) globalThis.navigator?.storage?.persist?.().catch(() => {})
+  }, [hasData])
+
   const signOut = useCallback(() => {
     removeKey(AUTH_KEY)
     setAuth(null)
