@@ -6,7 +6,9 @@ After=network.target
 Type=simple
 User=root
 WorkingDirectory=/opt/DoAide-Khata/frontend
-ExecStart=/usr/bin/npx serve -s dist -l tcp://172.18.0.1:3102 --no-clipboard
+# SPA fallback lives in dist/serve.json (from public/) so static /guides pages win over it;
+# `-s` would put its catch-all rewrite ahead of those rules.
+ExecStart=/usr/bin/npx serve dist -l tcp://172.18.0.1:3102 --no-clipboard
 Restart=always
 RestartSec=5
 
