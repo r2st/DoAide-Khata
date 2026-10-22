@@ -199,6 +199,9 @@ export default function Home() {
             <button type="button" className="btn-primary w-full text-lg" onClick={() => setAdding(true)}>
               + {t('customers.add')}
             </button>
+            <Link to="/tools/whatsapp-reminder" className="mt-3 block py-2 text-center text-sm font-semibold text-khata-dark underline">
+              💬 {t('home.justRemind')}
+            </Link>
           </div>
         ) : customers.length === 0 ? (
           <p className="py-6 text-center text-gray-500">{t('customers.noMatch')}</p>

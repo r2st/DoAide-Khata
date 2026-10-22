@@ -2,6 +2,7 @@ import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../lib/api'
 import { useT } from '../lib/i18n'
+import { ruleParse } from '../lib/parse'
 import { live } from '../lib/ledger'
 import { useKhata } from '../state/KhataContext'
 import Modal from './Modal'
@@ -27,11 +28,14 @@ export default function QuickEntry() {
     if (!sentence.trim()) return
     setBusy(true)
     setError('')
+    const names = customers.map((c) => c.name)
     let result = null
     try {
-      result = await api.parse(sentence, customers.map((c) => c.name))
+      result = await api.parse(sentence, names)
     } catch {
-      setError(t('quick.failed'))
+      // Offline or server trouble: the on-device parser still fills in what it can.
+      result = ruleParse(sentence, names)
+      if (!result.amount) setError(t('quick.failed'))
     }
     setBusy(false)
     const match = result?.customer_name && customers.find((c) => c.name.toLowerCase() === result.customer_name.toLowerCase())

@@ -1,10 +1,31 @@
 const BASE = import.meta.env.VITE_API_BASE || ''
 
-async function request(path, { method = 'GET', body, token, raw = false } = {}) {
+export const TIMEOUT_MS = 20_000
+
+// Every failure becomes an Error with a status: HTTP errors keep theirs, timeouts are 408
+// and a dropped connection is 0, so callers can tell "offline" apart from "server said no".
+async function request(path, { method = 'GET', body, token, raw = false, timeout = TIMEOUT_MS } = {}) {
   const headers = {}
   if (body !== undefined) headers['Content-Type'] = 'application/json'
   if (token) headers.Authorization = `Bearer ${token}`
-  const resp = await fetch(`${BASE}${path}`, { method, headers, body: body === undefined ? undefined : JSON.stringify(body) })
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), timeout)
+  let resp
+  try {
+    resp = await fetch(`${BASE}${path}`, {
+      method,
+      headers,
+      body: body === undefined ? undefined : JSON.stringify(body),
+      signal: controller.signal,
+    })
+  } catch (e) {
+    const timedOut = e?.name === 'AbortError'
+    const err = new Error(timedOut ? 'Request timed out' : 'Network error — check your internet connection')
+    err.status = timedOut ? 408 : 0
+    throw err
+  } finally {
+    clearTimeout(timer)
+  }
   if (!resp.ok) {
     const detail = await resp.json().then((d) => d.detail, () => null)
     const err = new Error(typeof detail === 'string' ? detail : `Request failed (${resp.status})`)
@@ -14,11 +35,13 @@ async function request(path, { method = 'GET', body, token, raw = false } = {}) 
   return raw ? resp.blob() : resp.json()
 }
 
+export const isOfflineError = (e) => e?.status === 0 || e?.status === 408
+
 export const api = {
   config: () => request('/api/config'),
   googleLogin: (credential) => request('/api/auth/google', { method: 'POST', body: { credential } }),
   sync: (token, doc) => request('/api/sync', { method: 'POST', body: doc, token }),
-  parse: (text, customers) => request('/api/ai/parse', { method: 'POST', body: { text, customers } }),
+  parse: (text, customers) => request('/api/ai/parse', { method: 'POST', body: { text, customers }, timeout: 12_000 }),
   billPdf: (bill) => request('/api/pdf/bill', { method: 'POST', body: bill, raw: true }),
   ledgerPdf: (data) => request('/api/pdf/ledger', { method: 'POST', body: data, raw: true }),
 }

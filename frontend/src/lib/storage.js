@@ -34,7 +34,10 @@ export function downloadBackup(state) {
   const a = document.createElement('a')
   a.href = URL.createObjectURL(blob)
   a.download = `khata-backup-${new Date().toISOString().slice(0, 10)}.json`
+  // Firefox ignores clicks on detached links, and revoking straight away can cancel the download in Safari.
+  document.body.appendChild(a)
   a.click()
-  URL.revokeObjectURL(a.href)
+  a.remove()
+  setTimeout(() => URL.revokeObjectURL(a.href), 10_000)
   writeJSON(BACKUP_KEY, Date.now())
 }

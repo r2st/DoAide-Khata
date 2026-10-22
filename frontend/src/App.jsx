@@ -1,14 +1,23 @@
+import { useEffect } from 'react'
 import { HelmetProvider } from 'react-helmet-async'
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
+import ErrorBoundary from './components/ErrorBoundary'
 import Layout from './components/Layout'
 import Seo from './components/Seo'
 import { LangProvider, useT } from './lib/i18n'
-import Bill from './pages/Bill'
-import CustomerLedger from './pages/CustomerLedger'
-import Help from './pages/Help'
+import { lazyPage } from './lib/lazyPage'
 import Home from './pages/Home'
-import Settings from './pages/Settings'
 import { KhataProvider } from './state/KhataContext'
+
+// Home is the landing page and stays in the main bundle; the rest load on demand.
+const CustomerLedger = lazyPage(() => import('./pages/CustomerLedger'))
+const Bill = lazyPage(() => import('./pages/Bill'))
+const Settings = lazyPage(() => import('./pages/Settings'))
+const Help = lazyPage(() => import('./pages/Help'))
+const ReminderTool = lazyPage(() => import('./pages/ReminderTool'))
+
+export const PAGES = [CustomerLedger, Bill, Settings, Help, ReminderTool]
+export const preloadPages = () => Promise.all(PAGES.map((p) => p.preload()))
 
 function NotFound() {
   const { t } = useT()
@@ -32,6 +41,7 @@ export function AppRoutes() {
         <Route path="bill" element={<Bill />} />
         <Route path="settings" element={<Settings />} />
         <Route path="help" element={<Help />} />
+        <Route path="tools/whatsapp-reminder" element={<ReminderTool />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
@@ -39,15 +49,23 @@ export function AppRoutes() {
 }
 
 export default function App() {
+  // Fetch the other pages once the first screen is up, so they open instantly and work offline.
+  useEffect(() => {
+    const idle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1500))
+    idle(() => preloadPages().catch(() => {}))
+  }, [])
+
   return (
-    <HelmetProvider>
-      <LangProvider>
-        <KhataProvider>
-          <BrowserRouter>
-            <AppRoutes />
-          </BrowserRouter>
-        </KhataProvider>
-      </LangProvider>
-    </HelmetProvider>
+    <ErrorBoundary>
+      <HelmetProvider>
+        <LangProvider>
+          <KhataProvider>
+            <BrowserRouter>
+              <AppRoutes />
+            </BrowserRouter>
+          </KhataProvider>
+        </LangProvider>
+      </HelmetProvider>
+    </ErrorBoundary>
   )
 }

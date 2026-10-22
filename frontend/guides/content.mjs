@@ -10,7 +10,7 @@ export const site = {
   nav: [
     ['/', 'Open Khata'],
     ['/guides', 'Guides'],
-    ['/help', 'Help'],
+    ['/tools/whatsapp-reminder', 'Reminder maker'],
   ],
   footer:
     'DoAide Khata is a free digital udhar khata for Indian shopkeepers. Also from DoAide: <a href="https://gst.doaide.com">GST calculator</a> · <a href="https://tax.doaide.com">income tax calculators</a> · <a href="https://comply.doaide.com">compliance calendar</a>',
@@ -365,5 +365,137 @@ export const guides = [
       ['Is a payment screenshot proof of payment?', 'No. Screenshots can be faked. Always confirm the payment in your own UPI app, soundbox or bank statement before handing over goods or clearing udhar.'],
     ],
     cta: ['/', 'Collect udhar on UPI with a free khata'],
+  },
+  {
+    slug: 'gst-bill-format-for-small-shops',
+    title: 'GST Bill Format for Small Shops and Kirana Stores (with Free Bill Maker) | DoAide Khata',
+    h1: 'GST bill format for small shops and kirana stores',
+    description:
+      'What a GST tax invoice must include, when a small shop can issue a bill of supply instead, CGST + SGST vs IGST, HSN codes and a free bill maker that works on your phone.',
+    updated: '2026-10-22',
+    intro: `<p>If your shop is registered under GST, every sale needs a proper bill. Customers who run their own business ask for one so they can claim input tax credit, and a clean bill protects you if there is ever a question from the tax department.</p>
+<p>This guide explains, in plain language, what a GST bill must contain, which type of bill to issue, and how to make one in a minute from your phone. It is general information, not tax advice — your CA has the final word for your business.</p>`,
+    sections: [
+      [
+        'which-bill',
+        'Tax invoice, bill of supply or no bill?',
+        `<table>
+<thead><tr><th>Your situation</th><th>What to issue</th></tr></thead>
+<tbody>
+<tr><td>Regular GST-registered shop selling taxable goods</td><td>Tax invoice showing GST</td></tr>
+<tr><td>Composition scheme dealer</td><td>Bill of supply (no GST shown, cannot charge GST)</td></tr>
+<tr><td>Selling only exempt goods (e.g. loose fresh vegetables)</td><td>Bill of supply</td></tr>
+<tr><td>Not registered (turnover below the limit)</td><td>A simple cash memo or estimate; you cannot charge GST</td></tr>
+</tbody></table>
+<p>For small retail sales to unregistered customers, the rules allow some relaxation on low-value bills when the customer does not ask for one, but many shops simply bill every sale so the day’s totals match the books.</p>`,
+      ],
+      [
+        'fields',
+        'What a GST tax invoice must include',
+        `<ol>
+<li>Your shop name, address and <strong>GSTIN</strong></li>
+<li>A unique, consecutive <strong>invoice number</strong> for the financial year (for example 2026-27/0041)</li>
+<li><strong>Date</strong> of issue</li>
+<li>Customer name and address — and the customer’s GSTIN if they are registered</li>
+<li><strong>HSN code</strong> of the goods (4 or 6 digits depending on your turnover)</li>
+<li>Description, quantity, unit and rate of each item</li>
+<li>Taxable value, the <strong>GST rate</strong>, and the tax amount split as CGST + SGST, or IGST</li>
+<li>Place of supply (state) when selling to another state</li>
+<li>Total amount, and your signature or digital signature</li>
+</ol>`,
+      ],
+      [
+        'cgst-igst',
+        'CGST + SGST or IGST?',
+        `<p>The split depends on where the goods are supplied, not on where the customer lives.</p>
+<ul>
+<li><strong>Same state</strong> (a customer buying at your counter): half the GST is CGST and half is SGST. On a ₹1,000 item at 18%, that is ₹90 CGST + ₹90 SGST.</li>
+<li><strong>Another state</strong> (you ship goods to a buyer in a different state): the full 18% is IGST, ₹180.</li>
+</ul>
+<p>Getting this wrong means the customer cannot claim credit and you may have to pay the right tax again, so double-check before sending goods out of state.</p>`,
+      ],
+      [
+        'hsn',
+        'Finding the right HSN code and GST rate',
+        `<p>Most kirana goods fall into a handful of HSN chapters — food grains, edible oil, packaged food, soaps and toiletries. Packaged and labelled items often carry a different rate from loose ones. Look up each product once, write the HSN and rate next to it in your product list, and reuse it. The <a href="https://gst.doaide.com">DoAide GST rate finder</a> helps you search by product name.</p>`,
+      ],
+      [
+        'make-bill',
+        'Make a GST bill on your phone in one minute',
+        `<ol>
+<li>Open <a href="/bill">DoAide Khata → Bill</a>. Add your shop name, address and GSTIN once in <a href="/settings">Settings</a>.</li>
+<li>Pick the customer (or type a new name) and add items with HSN, quantity, rate and GST %.</li>
+<li>Tick “inter-state” only if you are supplying to another state — the app switches from CGST + SGST to IGST.</li>
+<li>Save. Invoice numbers run in sequence for each financial year automatically.</li>
+<li>Download the PDF or send it on WhatsApp. If the customer is paying later, tick “add to khata” and the total goes straight into their udhar.</li>
+</ol>
+<p>Everything works without signing up, and the bills stay on your phone.</p>`,
+      ],
+    ],
+    faqs: [
+      ['Can a composition dealer charge GST on the bill?', 'No. Composition dealers issue a bill of supply and cannot collect GST from customers; they pay tax on turnover at the composition rate.'],
+      ['Do invoice numbers have to restart every year?', 'Invoice numbers must be unique and consecutive within a financial year. Most shops use a prefix with the year, like 2026-27/001, and restart the counter each April.'],
+      ['Is a GST bill made on a phone valid?', 'Yes. The law cares about what the invoice contains, not the software used. A PDF with all the required fields is a valid tax invoice.'],
+      ['When should I use IGST instead of CGST and SGST?', 'Use IGST when the place of supply is in a different state from your shop, such as goods shipped to a buyer in another state. Counter sales in your own state use CGST + SGST.'],
+    ],
+    cta: ['/bill', 'Make a free GST bill now — no login'],
+  },
+  {
+    slug: 'khata-app-without-signup',
+    title: 'Udhar Khata App Without Signup or OTP: How No-Login Khata Works | DoAide Khata',
+    h1: 'A khata app without signup: how a no-login udhar khata works',
+    description:
+      'Most khata apps want your phone number and an OTP before you write a single entry. Here is how a no-login digital khata works, where your data is stored, and how to keep it safe.',
+    updated: '2026-10-22',
+    intro: `<p>Popular udhar apps such as Khatabook and OkCredit ask you to install an app and verify your mobile number before you can record anything. That suits many shops. But some shopkeepers would rather not hand over their number, have an old phone with little storage, or just want to try a digital khata for a day before deciding.</p>
+<p>A no-login khata runs in the phone’s browser. This guide explains how it works and what you trade off.</p>`,
+    sections: [
+      [
+        'how',
+        'How a no-login khata works',
+        `<p>When you open <a href="/">DoAide Khata</a>, the app loads in your browser like any website. Customers, entries and bills are saved in the browser’s own storage on your phone — not on a server. Nothing leaves the phone unless you send a WhatsApp reminder, make a PDF, or choose to turn on sync.</p>
+<p>You can add it to your home screen from the browser menu (“Add to Home screen” / “Install app”). It then opens full-screen like an installed app, and it keeps working when the internet is weak or off.</p>`,
+      ],
+      [
+        'compare',
+        'Login vs no-login: what you trade',
+        `<table>
+<thead><tr><th></th><th>App with phone/OTP login</th><th>No-login browser khata</th></tr></thead>
+<tbody>
+<tr><td>Start recording</td><td>After install + OTP</td><td>Immediately</td></tr>
+<tr><td>Phone storage</td><td>App install needed</td><td>No install; optional home-screen icon</td></tr>
+<tr><td>Data location</td><td>Company servers</td><td>Your phone (optional Google sync)</td></tr>
+<tr><td>New phone</td><td>Log in again</td><td>Restore a backup file, or sign in to sync</td></tr>
+<tr><td>Works offline</td><td>Usually</td><td>Yes, once opened</td></tr>
+</tbody></table>`,
+      ],
+      [
+        'safety',
+        'Keeping a no-login khata safe',
+        `<ul>
+<li><strong>Download a backup every couple of weeks.</strong> Settings → Download backup saves one small file you can keep on WhatsApp “Message yourself” or Google Drive. The app reminds you when it has been a while.</li>
+<li><strong>Don’t clear browser data</strong> for the site, and use your normal browser rather than a private/incognito tab.</li>
+<li><strong>Turn on Google sync if you have many customers.</strong> It is optional and only stores your khata so you can open it on another phone.</li>
+<li><strong>Use a screen lock</strong> on the phone, as you would for any khata.</li>
+</ul>`,
+      ],
+      [
+        'try',
+        'Try it in two minutes',
+        `<ol>
+<li>Open <a href="/">khata.doaide.com</a> and pick Hindi or English.</li>
+<li>Add one customer and tap <em>Gave ₹</em> for today’s udhar.</li>
+<li>Add your UPI ID in Settings and tap <em>Remind</em> to see the WhatsApp message.</li>
+</ol>
+<p>Only need to send one reminder? The <a href="/tools/whatsapp-reminder">free reminder maker</a> does that without creating a khata at all.</p>`,
+      ],
+    ],
+    faqs: [
+      ['Is a khata app without login safe?', 'Your entries stay in your phone’s browser storage and are not uploaded anywhere unless you turn on sync. Keep regular backups and a screen lock, and it is as safe as the phone itself.'],
+      ['What happens if I change my phone?', 'Download a backup file in Settings and restore it on the new phone, or sign in with Google before switching so your khata syncs automatically.'],
+      ['Does a no-login khata work without internet?', 'Yes. After the first visit the app is cached on the phone, so you can add customers and entries offline. Reminders and PDFs need internet.'],
+      ['Can two people use the same khata?', 'Sign in with the same Google account on both phones and turn on sync. Entries made on one phone appear on the other.'],
+    ],
+    cta: app,
   },
 ]

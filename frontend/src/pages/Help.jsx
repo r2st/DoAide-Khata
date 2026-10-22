@@ -97,6 +97,9 @@ export default function Help() {
           >
             🎓 {t('onb.replay')}
           </button>
+          <Link to="/tools/whatsapp-reminder" className="btn-ghost">
+            💬 {t('nav.reminderTool')}
+          </Link>
           <Link to="/" className="btn-primary">
             {t('goHome')}
           </Link>

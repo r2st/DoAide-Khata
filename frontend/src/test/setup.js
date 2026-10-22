@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom/vitest'
 import { afterEach } from 'vitest'
 import { cleanup } from '@testing-library/react'
+import { preloadPages } from '../App'
 
 // Node 25+ ships its own (file-backed, often undefined) localStorage global that
 // shadows jsdom's, so give tests a plain in-memory Storage.
@@ -29,6 +30,9 @@ class MemoryStorage {
 if (typeof globalThis.localStorage?.clear !== 'function') {
   Object.defineProperty(globalThis, 'localStorage', { value: new MemoryStorage(), configurable: true })
 }
+
+// Lazy pages render synchronously once loaded, so tests don't wait on Suspense.
+await preloadPages()
 
 afterEach(() => {
   cleanup()

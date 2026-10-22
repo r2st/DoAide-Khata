@@ -1,5 +1,8 @@
+import { Suspense } from 'react'
 import { Link, NavLink, Outlet } from 'react-router-dom'
 import { useT } from '../lib/i18n'
+import { useOnline } from '../lib/useOnline'
+import PageLoader from './PageLoader'
 import { appShareMessage, whatsappLink } from '../lib/whatsapp'
 import { useKhata } from '../state/KhataContext'
 
@@ -26,6 +29,7 @@ export function LangToggle({ className = '' }) {
 export default function Layout() {
   const { t, lang } = useT()
   const { auth, sync } = useKhata()
+  const online = useOnline()
 
   return (
     <div className="mx-auto flex min-h-screen max-w-2xl flex-col">
@@ -60,10 +64,17 @@ export default function Layout() {
             </NavLink>
           ))}
         </nav>
+        {!online && (
+          <p role="status" className="bg-amber-100 px-4 py-1.5 text-center text-xs font-medium text-amber-900">
+            📴 {t('offline')}
+          </p>
+        )}
       </header>
 
       <main className="flex-1 px-4 pb-32 pt-4 sm:pb-8">
-        <Outlet />
+        <Suspense fallback={<PageLoader />}>
+          <Outlet />
+        </Suspense>
       </main>
 
       <footer className="no-print px-4 pb-28 text-center text-xs text-gray-500 sm:pb-6">
@@ -79,7 +90,10 @@ export default function Layout() {
             💬 {t('share.app')}
           </a>
         </p>
-        <p className="mb-3">
+        <p className="mb-3 flex flex-wrap justify-center gap-x-4">
+          <Link to="/tools/whatsapp-reminder" className="inline-block py-2 font-semibold text-khata-dark underline">
+            {t('nav.reminderTool')}
+          </Link>
           <a href="/guides" className="inline-block py-2 font-semibold text-khata-dark underline">
             {t('nav.guides')}
           </a>
