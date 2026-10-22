@@ -1,6 +1,10 @@
 {
   "rewrites": [
+    { "source": "/guides/:slug([a-z0-9-]+)", "destination": "/guides/:slug/index.html" },
     { "source": "/guides", "destination": "/guides/index.html" },
-    { "source": "/guides/:slug", "destination": "/guides/:slug/index.html" }
+    { "source": "/bill", "destination": "/index.html" },
+    { "source": "/settings", "destination": "/index.html" },
+    { "source": "/help", "destination": "/index.html" },
+    { "source": "/customer/:id", "destination": "/index.html" }
   ]
 }
