@@ -14,7 +14,9 @@ export default function Seo({ title, description, path = '/', jsonLd = [] }) {
       <meta property="og:url" content={url} />
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content="DoAide Khata" />
-      <meta name="twitter:card" content="summary" />
+      <meta property="og:image" content={`${SITE_URL}/og-image.png`} />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:image" content={`${SITE_URL}/og-image.png`} />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       {jsonLd.map((data, i) => (

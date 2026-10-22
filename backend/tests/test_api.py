@@ -35,6 +35,10 @@ def test_sitemap_is_xml_with_all_routes(client):
         "https://khata.doaide.com/bill",
         "https://khata.doaide.com/help",
         "https://khata.doaide.com/settings",
+        "https://khata.doaide.com/guides",
+        "https://khata.doaide.com/guides/best-free-udhar-khata-app",
+        "https://khata.doaide.com/guides/whatsapp-payment-reminder-message",
+        "https://khata.doaide.com/guides/how-to-maintain-udhar-khata-kirana",
     ]
 
 

@@ -67,6 +67,12 @@ export default function Layout() {
 
       <footer className="no-print px-4 pb-24 text-center text-xs text-gray-500 sm:pb-6">
         {!auth && <p className="mb-2">{t('localNote')}</p>}
+        {/* Plain link: /guides is static HTML outside the SPA. */}
+        <p className="mb-3">
+          <a href="/guides" className="font-semibold text-khata-dark underline">
+            {t('nav.guides')}
+          </a>
+        </p>
         <a
           href="https://doaide.com"
           target="_blank"

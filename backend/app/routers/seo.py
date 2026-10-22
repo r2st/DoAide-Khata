@@ -6,7 +6,16 @@ from app.config import settings
 router = APIRouter()
 
 # Every public frontend route. Customer ledgers live in the browser, so they're not listed.
-ROUTES = [("/", "1.0", "daily"), ("/bill", "0.8", "weekly"), ("/help", "0.7", "monthly"), ("/settings", "0.4", "monthly")]
+ROUTES = [
+    ("/", "1.0", "daily"),
+    ("/bill", "0.8", "weekly"),
+    ("/help", "0.7", "monthly"),
+    ("/settings", "0.4", "monthly"),
+    ("/guides", "0.7", "weekly"),
+]
+# Static guides rendered by frontend/scripts/build-guides.mjs; keep in sync with frontend/guides/content.mjs.
+GUIDES = ["best-free-udhar-khata-app", "whatsapp-payment-reminder-message", "how-to-maintain-udhar-khata-kirana"]
+ROUTES += [(f"/guides/{slug}", "0.7", "monthly") for slug in GUIDES]
 
 
 @router.get("/sitemap.xml")
