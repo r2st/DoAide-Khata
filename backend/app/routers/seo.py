@@ -24,6 +24,8 @@ GUIDES = [
     "upi-payments-for-kirana-shops",
     "gst-bill-format-for-small-shops",
     "khata-app-without-signup",
+    "free-digital-ledger-for-shopkeepers",
+    "khata-book-alternative-2026",
 ]
 ROUTES += [(f"/guides/{slug}", "0.7", "monthly") for slug in GUIDES]
 

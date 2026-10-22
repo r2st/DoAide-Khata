@@ -498,4 +498,149 @@ export const guides = [
     ],
     cta: app,
   },
+  {
+    slug: 'free-digital-ledger-for-shopkeepers',
+    title: 'Free Digital Ledger for Shopkeepers: Ditch the Paper Bahi Khata (2026) | DoAide Khata',
+    h1: 'Free digital ledger for shopkeepers: ditch the paper bahi khata in 2026',
+    description:
+      'Why kirana and retail shop owners are replacing the paper bahi khata with a free digital ledger: customer-wise udhar tracking, WhatsApp reminders, UPI collection and backups — with a one-day switching plan.',
+    updated: '2026-10-22',
+    intro: `<p>Walk into any kirana store, medical shop or hardware dealer in India and you will find the same two things behind the counter: a UPI QR code and a worn paper register of <strong>udhar</strong>. The QR code modernised how customers pay; the register is still where the shop's money quietly leaks. Entries get smudged, pages tear, balances are added up wrong at 9 pm after a 14-hour day, and nobody remembers whether Gupta ji's ₹500 from Tuesday was ever written down.</p>
+<p>A <strong>free digital ledger</strong> fixes all of this without changing how you work: you still record "gave" and "got", but your phone does the maths, keeps the proof and sends the reminders. This guide shows what a digital ledger actually does for a shopkeeper, what it costs (nothing, if you choose right), and how to switch from paper in a single day.</p>`,
+    sections: [
+      [
+        'paper-problems',
+        'What the paper bahi khata really costs you',
+        `<p>Paper feels free, but shopkeepers who track it find the old register costs real money every month:</p>
+<ul>
+<li><strong>Forgotten entries.</strong> In rush hour you serve three customers at once. One udhar entry missed per day at an average ₹150 is roughly <strong>₹4,500 a month</strong> of goods given away.</li>
+<li><strong>Silent balances.</strong> Money you don't actively see, you don't actively collect. Outstanding udhar quietly grows to ₹30,000–50,000 across 25–40 customers.</li>
+<li><strong>Disputes.</strong> "Maine toh pichhle hafte de diye the" — with no dated, itemised proof, you either absorb the loss or lose the customer.</li>
+<li><strong>One single copy.</strong> A spilled chai, a lost diary or one torn page and years of hisaab are gone.</li>
+<li><strong>Your evenings.</strong> Totalling balances by hand every week is unpaid clerical work.</li>
+</ul>`,
+      ],
+      [
+        'what-digital-gives',
+        'What a digital ledger gives you instead',
+        `<table>
+<thead><tr><th>Job</th><th>Paper register</th><th>Digital ledger</th></tr></thead>
+<tbody>
+<tr><td>Customer's current balance</td><td>Flip pages, add by hand</td><td>On screen instantly — "₹2,350 baaki"</td></tr>
+<tr><td>Payment reminder</td><td>Awkward phone call, or wait</td><td>One-tap WhatsApp message with a UPI link</td></tr>
+<tr><td>Proof of entries</td><td>Your handwriting vs their memory</td><td>Dated, itemised statement you can share as PDF</td></tr>
+<tr><td>Backup</td><td>None</td><td>Backup file or sync — survives a lost phone</td></tr>
+<tr><td>Month-end totals</td><td>An evening of arithmetic</td><td>Already added up, customer-wise</td></tr>
+</tbody></table>
+<p>The result shopkeepers notice first is faster collection: a polite WhatsApp reminder with a payment link gets settled in days, not weeks, because the customer can pay the moment they read it. See our <a href="/guides/whatsapp-payment-reminder-message">ready-made reminder templates in Hindi and English</a>.</p>`,
+      ],
+      [
+        'what-free-means',
+        'What "free" should actually mean in 2026',
+        `<p>Most khata apps advertise themselves as free. Before you move your shop's data in, check what free covers:</p>
+<ul>
+<li><strong>Free entries, forever</strong> — not a trial that later locks your own data behind a subscription.</li>
+<li><strong>No ads</strong> between you and your hisaab, and no pushy loan offers dressed up as features.</li>
+<li><strong>No forced signup.</strong> You should be able to start without surrendering your mobile number and OTP. <a href="/">DoAide Khata</a> opens in the browser and works immediately; signing in (with Google) is optional and only needed for sync.</li>
+<li><strong>Your data stays yours.</strong> You can download a backup file anytime from <a href="/settings">Settings</a> — no "export" paywall.</li>
+<li><strong>Works on any phone.</strong> A browser-based ledger needs no 60 MB download and runs on the cheapest Android.</li>
+</ul>
+<p>For a deeper comparison of signup-free options, read <a href="/guides/khata-app-without-signup">khata app without signup</a>.</p>`,
+      ],
+      [
+        'switch-in-a-day',
+        'How to switch from paper to digital in one day',
+        `<ol>
+<li><strong>Morning (10 minutes):</strong> Open <a href="/">khata.doaide.com</a>, choose Hindi or English, and add your 10 biggest udhar customers with mobile numbers.</li>
+<li><strong>Enter opening balances:</strong> For each customer, copy today's balance from the register as one "Gave" entry with the note <em>opening balance</em>.</li>
+<li><strong>Add your UPI ID</strong> in <a href="/settings">Settings</a> so every reminder carries a payment link. (New to UPI collection? See <a href="/guides/upi-payments-for-kirana-shops">UPI payments for kirana shops</a>.)</li>
+<li><strong>Through the day:</strong> record every new udhar and payment as it happens — two taps each.</li>
+<li><strong>Evening (5 minutes):</strong> send a WhatsApp reminder to your three oldest balances. Most shopkeepers recover more in the first week than they expect.</li>
+<li><strong>Keep the paper register alongside for 2–3 weeks</strong> if it gives you confidence, then retire it to the drawer.</li>
+</ol>`,
+      ],
+    ],
+    faqs: [
+      ['Is a digital ledger really free for shopkeepers?', 'DoAide Khata is free for unlimited customers and entries, WhatsApp reminders, UPI payment links, GST bills and PDF statements. It runs in the browser, so there is nothing to download and no subscription.'],
+      ['I am not good with phones. Is it hard to use?', 'If you can use WhatsApp, you can use a digital khata. There are only two main buttons — Gave and Got — and the app can be set to Hindi. Voice entry lets you speak the entry instead of typing.'],
+      ['What happens to my data if I lose my phone?', 'Download a backup file from Settings every couple of weeks, or sign in with Google to sync automatically. Either way you can restore your full khata on a new phone in minutes — something a paper register can never do.'],
+      ['Can I keep using my paper bahi khata alongside?', 'Yes. Most shopkeepers run both for two or three weeks while they build trust in the app, then stop updating the paper register once the digital ledger has proven itself.'],
+      ['Do my customers need to install anything?', 'No. Reminders arrive as normal WhatsApp messages with a UPI link they can pay through GPay, PhonePe, Paytm or any UPI app.'],
+    ],
+    cta: app,
+  },
+  {
+    slug: 'khata-book-alternative-2026',
+    title: 'Khata Book Alternative 2026: What Shopkeepers Should Look For | DoAide Khata',
+    h1: 'Looking for a khata book alternative in 2026? Here is what actually matters',
+    description:
+      'Choosing a khata book alternative in 2026: the features shopkeepers actually need, red flags like forced signup and ads, and why a free browser-based udhar khata is worth trying.',
+    updated: '2026-10-22',
+    intro: `<p>Khata apps took off because they solved a real problem: the paper register could not send reminders or add up balances. But after a few years with the popular apps, many shopkeepers find themselves searching for a <strong>khata book alternative</strong> — usually because of growing ads and promotions inside the app, pressure to take loans, heavy downloads on budget phones, or simply wanting their customer data under their own control.</p>
+<p>The good news: in 2026 you have real choices. This guide lists what a khata alternative must do, the red flags to avoid, and how to move your existing udhar data across without losing anything.</p>`,
+    sections: [
+      [
+        'why-switch',
+        'Why shopkeepers look for an alternative',
+        `<p>Across the common khata apps, the complaints shopkeepers raise are remarkably consistent:</p>
+<ul>
+<li><strong>Clutter.</strong> The core job — udhar in, payment in, balance — gets buried under loan offers, insurance banners and promotions.</li>
+<li><strong>Forced account creation.</strong> You cannot even try the app without a mobile number and OTP, and your customers' names and numbers go to someone's server on day one.</li>
+<li><strong>App weight.</strong> Big downloads and background services slow down the budget Android phones most shops actually run on.</li>
+<li><strong>Lock-in worries.</strong> Getting your own data out as a usable file is often hard to find or incomplete.</li>
+<li><strong>Features you never asked for</strong> replacing the simple bahi khata flow you did.</li>
+</ul>
+<p>None of this means those apps are bad — they pioneered digital khata. It means your needs (a fast, clean, private ledger) and their business model (lending and cross-selling) may have drifted apart.</p>`,
+      ],
+      [
+        'checklist',
+        'The 2026 khata alternative checklist',
+        `<table>
+<thead><tr><th>Must have</th><th>Why</th></tr></thead>
+<tbody>
+<tr><td>Fast Gave/Got entries with running balance</td><td>This is the whole job. Anything that slows it down fails.</td></tr>
+<tr><td>WhatsApp reminders with UPI link</td><td>Reminders that customers can pay from directly get settled fastest.</td></tr>
+<tr><td>Works without signup</td><td>Try it with real entries before trusting it; no OTP wall.</td></tr>
+<tr><td>Free with no ads or loan push</td><td>Your ledger should not be a billboard.</td></tr>
+<tr><td>Hindi and English</td><td>Whoever is at the counter should manage the khata.</td></tr>
+<tr><td>Backup you control + optional sync</td><td>Download your data as a file; sync across phones if you choose.</td></tr>
+<tr><td>Light enough for any phone</td><td>A browser-based app needs no download at all.</td></tr>
+<tr><td>PDF statements and GST bills</td><td>Settle accounts cleanly and serve business customers. See our <a href="/guides/gst-bill-format-for-small-shops">GST bill format guide</a>.</td></tr>
+</tbody></table>`,
+      ],
+      [
+        'doaide-khata',
+        'How DoAide Khata fits as an alternative',
+        `<p><a href="/">DoAide Khata</a> was built around exactly this checklist:</p>
+<ul>
+<li><strong>No signup, no download.</strong> Open <a href="/">khata.doaide.com</a> in your phone browser and start entering udhar immediately. Add it to the home screen and it behaves like an app — it even works offline after the first visit.</li>
+<li><strong>Free and clean.</strong> No ads, no loan offers, no subscription. Unlimited customers and entries.</li>
+<li><strong>Collection built in.</strong> One-tap WhatsApp reminders in Hindi or English with your UPI link, plus a <a href="/tools/whatsapp-reminder">free reminder maker</a> you can use even without a khata.</li>
+<li><strong>Your data, your choice.</strong> Entries live on your phone by default; Google sign-in enables backup and sync across phones when you want it, and you can download a backup file from <a href="/settings">Settings</a> anytime.</li>
+<li><strong>Shop extras.</strong> GST bills and PDF statements when a customer needs proper paperwork.</li>
+</ul>
+<p>If you are comparing options broadly, our guide to the <a href="/guides/best-free-udhar-khata-app">best free udhar khata app in 2026</a> covers the full feature-by-feature thinking.</p>`,
+      ],
+      [
+        'migrate',
+        'Moving your existing khata data across',
+        `<p>Switching apps does not mean re-typing history. You only need today's truth:</p>
+<ol>
+<li>In your current app, note each customer's <strong>current outstanding balance</strong> (or export/screenshot the balances screen).</li>
+<li>In the new ledger, add each customer and record that balance as one "Gave" entry with the note <em>opening balance</em>.</li>
+<li>Add your UPI ID in Settings, send a test reminder to yourself, and check it reads well.</li>
+<li>Run the old app read-only for a couple of weeks in case of disputes about older entries, then uninstall it.</li>
+</ol>
+<p>For the full switching plan, see <a href="/guides/free-digital-ledger-for-shopkeepers">ditching the paper bahi khata</a> — the same one-day method works when leaving another app.</p>`,
+      ],
+    ],
+    faqs: [
+      ['What is the best free khata book alternative in 2026?', 'The best alternative is the one that does fast Gave/Got entries, WhatsApp reminders with UPI links, and backups — free, without ads or forced signup. DoAide Khata meets that checklist and runs in the browser with no download.'],
+      ['Can I move my data from my current khata app?', 'Yes. Note each customer’s current balance in your old app and enter it as an opening-balance entry in the new ledger. You do not need to re-type old transactions — keep the old app for reference for a few weeks.'],
+      ['Is a browser-based khata as good as a downloaded app?', 'For ledger work, yes. It loads instantly on any phone, needs no storage space, works offline after the first visit, and updates itself. You can pin it to your home screen so it opens like any other app.'],
+      ['Why do khata apps push loans and ads?', 'Lending and advertising are how many free apps earn revenue. That is a legitimate model, but if it gets in the way of your daily hisaab, a clean alternative without those distractions may suit your shop better.'],
+      ['Does DoAide Khata charge later?', 'No. The khata — unlimited entries, reminders, UPI links, GST bills and PDF statements — is free. There is no trial period and no feature wall.'],
+    ],
+    cta: app,
+  },
 ]
