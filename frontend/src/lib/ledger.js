@@ -70,11 +70,21 @@ export function dashboard({ customers, transactions }, today, { top = 5, overdue
     .filter((c) => c.balance > 0)
     .sort((a, b) => b.balance - a.balance)
 
-  // "Purana udhar": still owes, and hasn't paid (or, if never paid, hasn't had any entry) for a while.
+  const dueDates = {}
+  for (const t of txs) {
+    if (t.type === 'gave' && t.dueDate && (!dueDates[t.customerId] || t.dueDate < dueDates[t.customerId]))
+      dueDates[t.customerId] = t.dueDate
+  }
+
   const overdue = debtors
-    .map((c) => ({ ...c, since: paid[c.id] || activity[c.id] }))
-    .filter((c) => c.since && daysBetween(c.since, today) >= overdueDays)
-    .map((c) => ({ ...c, days: daysBetween(c.since, today) }))
+    .map((c) => {
+      const due = dueDates[c.id]
+      if (due && due <= today) return { ...c, since: due, days: daysBetween(due, today) }
+      const since = paid[c.id] || activity[c.id]
+      if (since && daysBetween(since, today) >= overdueDays) return { ...c, since, days: daysBetween(since, today) }
+      return null
+    })
+    .filter(Boolean)
 
   return {
     totalOutstanding: round2(totalOutstanding),

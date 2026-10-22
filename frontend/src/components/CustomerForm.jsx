@@ -8,6 +8,10 @@ export default function CustomerForm({ initial = {}, withOpening = false, onSubm
   const { t } = useT()
   const [name, setName] = useState(initial.name || '')
   const [phone, setPhone] = useState(initial.phone || '')
+  const [email, setEmail] = useState(initial.email || '')
+  const [address, setAddress] = useState(initial.address || '')
+  const [contactType, setContactType] = useState(initial.contactType || 'customer')
+  const [notes, setNotes] = useState(initial.notes || '')
   const [opening, setOpening] = useState('')
   const [error, setError] = useState('')
 
@@ -17,7 +21,14 @@ export default function CustomerForm({ initial = {}, withOpening = false, onSubm
     if (phone.trim() && !isValidIndianMobile(phone)) return setError(t('customer.invalidPhone'))
     const amount = Number(opening)
     if (opening !== '' && !(amount > 0)) return setError(t('tx.invalidAmount'))
-    onSubmit({ name: name.trim(), phone: phone.trim(), ...(amount > 0 && { opening: Math.round(amount * 100) / 100 }) })
+    onSubmit({
+      name: name.trim(), phone: phone.trim(),
+      ...(email.trim() && { email: email.trim() }),
+      ...(address.trim() && { address: address.trim() }),
+      contactType,
+      ...(notes.trim() && { notes: notes.trim() }),
+      ...(amount > 0 && { opening: Math.round(amount * 100) / 100 }),
+    })
   }
 
   return (
@@ -43,6 +54,25 @@ export default function CustomerForm({ initial = {}, withOpening = false, onSubm
           maxLength={16}
         />
         <p className="mt-1 text-xs text-gray-500">{t('customer.phoneHint')}</p>
+      </div>
+      <div>
+        <label className="label" htmlFor="customer-email">{t('customer.email')}</label>
+        <input id="customer-email" className="input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} maxLength={80} />
+      </div>
+      <div>
+        <label className="label" htmlFor="customer-address">{t('customer.address')}</label>
+        <input id="customer-address" className="input" value={address} onChange={(e) => setAddress(e.target.value)} maxLength={120} />
+      </div>
+      <div>
+        <label className="label" htmlFor="customer-type">{t('customer.type')}</label>
+        <select id="customer-type" className="input" value={contactType} onChange={(e) => setContactType(e.target.value)}>
+          <option value="customer">{t('customer.typeCustomer')}</option>
+          <option value="supplier">{t('customer.typeSupplier')}</option>
+        </select>
+      </div>
+      <div>
+        <label className="label" htmlFor="customer-notes">{t('customer.notes')}</label>
+        <input id="customer-notes" className="input" value={notes} onChange={(e) => setNotes(e.target.value)} maxLength={200} />
       </div>
       {withOpening && (
         <div>

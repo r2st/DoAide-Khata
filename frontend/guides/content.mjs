@@ -643,4 +643,96 @@ export const guides = [
     ],
     cta: app,
   },
+  {
+    slug: 'digital-bookkeeping-small-business-india',
+    title: 'Digital Bookkeeping for Small Businesses in India — Complete Guide 2026 | DoAide Khata',
+    h1: 'Digital bookkeeping for small businesses in India — a complete guide for 2026',
+    description:
+      'Learn how to keep digital books for your kirana store, medical shop or small business in India. Benefits, how to start, common mistakes and free tools.',
+    updated: '2026-10-23',
+    intro: `<p>Running a small business in India means juggling cash, credit, GST and daily expenses — often in a paper register or a notebook. <strong>Digital bookkeeping</strong> replaces that notebook with an app or spreadsheet on your phone, giving you instant totals, fewer errors and a searchable record.</p>
+<p>This guide walks you through everything: why digital matters, how to start in one afternoon, what mistakes to avoid, and which free tools work best for Indian shopkeepers in 2026.</p>`,
+    sections: [
+      [
+        'why-digital-bookkeeping',
+        'Why digital bookkeeping matters for small businesses',
+        `<ul>
+<li><strong>Accurate totals in real time.</strong> No more end-of-day adding. Your phone shows today's collection, total udhar and net profit as you go.</li>
+<li><strong>Fewer human errors.</strong> A notebook entry "500" can be misread as "5000". Digital entries are exact and timestamped.</li>
+<li><strong>GST-ready.</strong> Even if you are below the GST threshold today, digital records make filing painless when you cross it.</li>
+<li><strong>Faster payment collection.</strong> Send a WhatsApp reminder with a UPI link. The customer pays from the message in GPay or PhonePe.</li>
+<li><strong>Backup and security.</strong> A paper register can be lost in a flood or fire. A digital backup lives in the cloud or on another phone.</li>
+<li><strong>Better business decisions.</strong> When you see monthly charts of income vs expense, patterns become obvious: slow months, profitable categories, problem customers.</li>
+</ul>`,
+      ],
+      [
+        'how-to-start',
+        'How to start digital bookkeeping in one afternoon',
+        `<ol>
+<li><strong>Pick a simple tool.</strong> You do not need Tally or expensive accounting software. A free khata app like <a href="/">DoAide Khata</a> is enough for most shops.</li>
+<li><strong>Enter your current balances.</strong> List every customer who owes you money. Enter each balance as an opening entry. This takes 30–60 minutes for a typical shop.</li>
+<li><strong>Set up shop details.</strong> Add your shop name, UPI ID and GSTIN (if you have one). This information appears on reminders and bills.</li>
+<li><strong>Start recording every transaction.</strong> From today, every "gave udhar" and "got payment" goes into the app. Keep the paper register alongside for one week so you can cross-check.</li>
+<li><strong>Send your first reminder.</strong> Pick a customer with a big balance, send a WhatsApp reminder with a UPI link, and watch how much faster you get paid.</li>
+</ol>`,
+      ],
+      [
+        'common-mistakes',
+        'Common bookkeeping mistakes to avoid',
+        `<ul>
+<li><strong>Mixing personal and business money.</strong> Keep a separate UPI account or at least a separate section for personal expenses. This saves you hours at tax time.</li>
+<li><strong>Recording amounts from memory.</strong> Enter the transaction immediately — before you serve the next customer. "I'll write it later" is how entries get lost.</li>
+<li><strong>Ignoring small amounts.</strong> ₹50 here and ₹100 there adds up to thousands over a month. Record everything.</li>
+<li><strong>Not backing up.</strong> If your phone is your only copy, one drop and your khata is gone. Use cloud sync or download a backup file once a week.</li>
+<li><strong>No due dates.</strong> When you give credit, set a due date (e.g. 15 days). Without a deadline, customers have no urgency to pay.</li>
+<li><strong>Skipping categories.</strong> Tagging entries as "Grocery", "Medicine" or "Hardware" lets you see which product lines make money and which don't.</li>
+</ul>`,
+      ],
+      [
+        'tools-comparison',
+        'Free bookkeeping tools for Indian small businesses',
+        `<table>
+<thead><tr><th>Tool</th><th>Best for</th><th>Key features</th></tr></thead>
+<tbody>
+<tr><td><a href="/">DoAide Khata</a></td><td>Kirana, medical, hardware shops</td><td>Gave/Got ledger, WhatsApp reminders with UPI, GST bills, reports, Hindi, no signup</td></tr>
+<tr><td>Spreadsheet (Google Sheets)</td><td>Shops comfortable with formulas</td><td>Fully customisable, works offline, free</td></tr>
+<tr><td>Tally</td><td>Larger businesses with an accountant</td><td>Full double-entry accounting, GST filing, payroll</td></tr>
+<tr><td>Paper register + calculator</td><td>Very small shops with few customers</td><td>No phone needed, but no backups and no reminders</td></tr>
+</tbody></table>
+<p>For most Indian shopkeepers who run on udhar, a dedicated khata app hits the sweet spot: simpler than a spreadsheet, more useful than paper, and free.</p>`,
+      ],
+      [
+        'gst-bookkeeping',
+        'GST and bookkeeping — what small shops need to know',
+        `<p>If your annual turnover is below ₹40 lakh (₹20 lakh for services), GST registration is optional. But keeping digital records now saves you the scramble when you cross the threshold.</p>
+<ul>
+<li>Record every sale with the date, amount and customer name.</li>
+<li>Keep receipts for purchases from suppliers — even a photo in your phone gallery counts.</li>
+<li>If you issue GST bills, use an app that calculates CGST + SGST (or IGST for inter-state sales) automatically.</li>
+<li>At the end of each quarter, your digital summary becomes the basis for your GST return.</li>
+</ul>
+<p>DoAide Khata generates GST-compliant bills with HSN codes and auto-calculated tax. You can issue a bill and add its total to the customer's udhar in one step.</p>`,
+      ],
+      [
+        'monthly-reports',
+        'How to use monthly reports to grow your business',
+        `<p>Numbers only help if you look at them. Set a monthly habit: on the 1st, open your summary for last month and ask three questions.</p>
+<ol>
+<li><strong>Did I receive more than I gave?</strong> If net is negative, you are lending faster than collecting. Time to tighten credit or send more reminders.</li>
+<li><strong>Who are my top debtors?</strong> The top five usually hold 60–70 % of your outstanding. Focus your collection on them.</li>
+<li><strong>Which category is growing?</strong> If electronics sales jumped this month, consider stocking more. If dairy is flat, a smaller order might free up cash.</li>
+</ol>
+<p>DoAide Khata's <a href="/reports">Reports page</a> shows monthly and yearly bar charts of income vs expense, plus a category-wise donut chart — all generated from your ledger, no extra entry needed.</p>`,
+      ],
+    ],
+    faqs: [
+      ['What is digital bookkeeping?', 'Digital bookkeeping is the practice of recording your business transactions — sales, purchases, credit given and payments received — in an app, spreadsheet or software on your phone or computer instead of in a paper register.'],
+      ['Is digital bookkeeping compulsory for small businesses in India?', 'Not legally, unless you are registered under GST or the Income Tax Act requires you to maintain books. However, keeping digital records is strongly recommended because it reduces errors, speeds up collections and makes tax filing easier.'],
+      ['Can I do bookkeeping on my phone?', 'Yes. Apps like DoAide Khata are designed to run on any smartphone browser. You do not need a computer or expensive software. Just open the app, add customers and start recording entries.'],
+      ['How much does digital bookkeeping cost?', 'Many apps are free. DoAide Khata, for example, offers unlimited entries, WhatsApp reminders, GST bills, PDF reports and cloud backup — all at zero cost with no trial period.'],
+      ['What if I am not good with technology?', 'If you can use WhatsApp, you can use a khata app. The interface has two main buttons: "Gave" and "Got". The rest — balance, reminders, reports — is automatic.'],
+      ['How do I back up my digital books?', 'Use the app\'s backup or sync feature. In DoAide Khata, you can sign in with Google to sync across devices, or download a backup file from Settings and keep it on Google Drive or WhatsApp yourself.'],
+    ],
+    cta: app,
+  },
 ]

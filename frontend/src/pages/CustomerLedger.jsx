@@ -7,7 +7,7 @@ import Modal from '../components/Modal'
 import Seo from '../components/Seo'
 import TransactionForm from '../components/TransactionForm'
 import { api, deliverPdf } from '../lib/api'
-import { formatDate, formatINR, initials } from '../lib/format'
+import { formatDate, formatINR, initials, todayISO } from '../lib/format'
 import { useT } from '../lib/i18n'
 import { runningLedger } from '../lib/ledger'
 import { entryMessage, reminderMessage, whatsappLink } from '../lib/whatsapp'
@@ -113,6 +113,10 @@ export default function CustomerLedger() {
           <div className="min-w-0 flex-1">
             <h1 className="truncate text-xl font-bold">{customer.name}</h1>
             {customer.phone && <p className="text-sm text-gray-500">{customer.phone}</p>}
+            {customer.email && <p className="text-xs text-gray-400">{customer.email}</p>}
+            {customer.contactType === 'supplier' && (
+              <span className="mt-0.5 inline-block rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-700">{t('customer.typeSupplier')}</span>
+            )}
           </div>
           <button type="button" className="btn-icon text-gray-500 hover:bg-gray-100" onClick={() => setEditingCustomer(true)} aria-label={t('customer.edit')}>
             ✏️
@@ -180,6 +184,12 @@ export default function CustomerLedger() {
                     <span className="block text-[11px] font-medium text-gray-500">{gave ? t('tx.gave') : t('tx.received')}</span>
                     <span className={`block text-lg font-bold ${gave ? 'text-red-600' : 'text-khata'}`}>{formatINR(tx.amount)}</span>
                     {tx.note && <span className="block text-sm text-gray-700">{tx.note}</span>}
+                    {tx.category && <span className="mt-0.5 block text-[11px] text-gray-400">{t(`cat.${tx.category}`)}</span>}
+                    {tx.dueDate && (
+                      <span className={`mt-0.5 block text-[11px] font-medium ${tx.dueDate < todayISO() ? 'text-red-500' : 'text-amber-600'}`}>
+                        {tx.dueDate < todayISO() ? `⚠ ${t('tx.overdue')} · ` : ''}{t('tx.due', { date: formatDate(tx.dueDate, lang) })}
+                      </span>
+                    )}
                     <span className="mt-0.5 block text-right text-[11px] text-gray-400">{t('tx.balanceAfter', { amount: formatINR(tx.balance) })}</span>
                   </button>
                 </div>

@@ -9,9 +9,9 @@ import { useKhata } from '../state/KhataContext'
 const NAV = [
   { to: '/', key: 'nav.khata', icon: '📒', end: true },
   { to: '/summary', key: 'nav.summary', icon: '📊' },
+  { to: '/reports', key: 'nav.reports', icon: '📈' },
   { to: '/bill', key: 'nav.bill', icon: '🧾' },
   { to: '/settings', key: 'nav.settings', icon: '⚙️' },
-  { to: '/help', key: 'nav.help', icon: '❓' },
 ]
 
 export function LangToggle({ className = '' }) {

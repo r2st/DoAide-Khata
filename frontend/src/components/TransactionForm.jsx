@@ -7,12 +7,16 @@ const QUICK_AMOUNTS = [100, 200, 500, 1000, 2000]
 
 // When `customers` is passed the form shows a customer picker (quick entry);
 // otherwise it's bound to the ledger it was opened from.
+const CATEGORIES = ['grocery', 'dairy', 'electronics', 'medicine', 'clothing', 'hardware', 'general', 'other']
+
 export default function TransactionForm({ initial = {}, customers, newCustomerName, onSubmit, onCancel, onDelete }) {
   const { t } = useT()
   const [type, setType] = useState(initial.type || 'gave')
   const [amount, setAmount] = useState(initial.amount ? String(initial.amount) : '')
   const [note, setNote] = useState(initial.note || '')
   const [date, setDate] = useState(initial.date || todayISO())
+  const [category, setCategory] = useState(initial.category || '')
+  const [dueDate, setDueDate] = useState(initial.dueDate || '')
   const [customerId, setCustomerId] = useState(initial.customerId || (newCustomerName ? NEW_CUSTOMER : ''))
   const [error, setError] = useState('')
 
@@ -21,7 +25,11 @@ export default function TransactionForm({ initial = {}, customers, newCustomerNa
     const value = Number(amount)
     if (!(value > 0)) return setError(t('tx.invalidAmount'))
     if (customers && !customerId) return setError(t('tx.chooseCustomer'))
-    onSubmit({ type, amount: Math.round(value * 100) / 100, note, date, customerId })
+    onSubmit({
+      type, amount: Math.round(value * 100) / 100, note, date, customerId,
+      ...(category && { category }),
+      ...(dueDate && { dueDate }),
+    })
   }
 
   const typeButton = (value, label, active) => (
@@ -101,6 +109,21 @@ export default function TransactionForm({ initial = {}, customers, newCustomerNa
         </label>
         <input id="tx-date" className="input" type="date" value={date} max={todayISO()} onChange={(e) => setDate(e.target.value)} />
       </div>
+      <div>
+        <label className="label" htmlFor="tx-category">{t('tx.category')}</label>
+        <select id="tx-category" className="input" value={category} onChange={(e) => setCategory(e.target.value)}>
+          <option value="">—</option>
+          {CATEGORIES.map((c) => (
+            <option key={c} value={c}>{t(`cat.${c}`)}</option>
+          ))}
+        </select>
+      </div>
+      {type === 'gave' && (
+        <div>
+          <label className="label" htmlFor="tx-due">{t('tx.dueDate')}</label>
+          <input id="tx-due" className="input" type="date" value={dueDate} min={date} onChange={(e) => setDueDate(e.target.value)} />
+        </div>
+      )}
       {error && <p className="text-sm text-red-600" role="alert">{error}</p>}
       <div className="flex gap-3">
         <button type="button" className="btn-ghost flex-1" onClick={onCancel}>

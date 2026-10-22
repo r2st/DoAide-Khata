@@ -29,6 +29,7 @@ export default function Home() {
   const navigate = useNavigate()
   const { state, auth, addCustomer, addTransaction } = useKhata()
   const [query, setQuery] = useState('')
+  const [contactFilter, setContactFilter] = useState('all')
   const [adding, setAdding] = useState(false)
   const [params, setParams] = useSearchParams()
   const [onboarding, setOnboarding] = useState(
@@ -45,9 +46,13 @@ export default function Home() {
     const q = query.trim().toLowerCase()
     const digits = q.replace(/\D/g, '')
     return live(state.customers)
-      .filter((c) => !q || c.name.toLowerCase().includes(q) || (digits && (c.phone || '').replace(/\D/g, '').includes(digits)))
+      .filter((c) => {
+        if (contactFilter === 'customers' && c.contactType === 'supplier') return false
+        if (contactFilter === 'suppliers' && c.contactType !== 'supplier') return false
+        return !q || c.name.toLowerCase().includes(q) || (digits && (c.phone || '').replace(/\D/g, '').includes(digits))
+      })
       .sort((a, b) => (activity[b.id] || '').localeCompare(activity[a.id] || '') || b.createdAt - a.createdAt)
-  }, [state.customers, query, activity])
+  }, [state.customers, query, activity, contactFilter])
 
   function saveCustomer({ opening, ...data }) {
     const customer = addCustomer(data)
@@ -174,14 +179,28 @@ export default function Home() {
           </button>
         </div>
         {stats.customerCount > 0 && (
-          <input
-            type="search"
-            className="input mb-3"
-            placeholder={t('customers.search')}
-            aria-label={t('customers.search')}
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
+          <>
+            <div className="mb-2 flex gap-2">
+              {['all', 'customers', 'suppliers'].map((f) => (
+                <button
+                  key={f}
+                  type="button"
+                  className={`rounded-full px-3 py-1 text-xs font-semibold ${contactFilter === f ? 'bg-khata text-white' : 'bg-white text-gray-600 ring-1 ring-black/10'}`}
+                  onClick={() => setContactFilter(f)}
+                >
+                  {t(`home.filter${f[0].toUpperCase() + f.slice(1)}`)}
+                </button>
+              ))}
+            </div>
+            <input
+              type="search"
+              className="input mb-3"
+              placeholder={t('customers.search')}
+              aria-label={t('customers.search')}
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+          </>
         )}
         {stats.customerCount === 0 ? (
           <div className="card text-gray-700">
