@@ -1,0 +1,17 @@
+[Unit]
+Description=DoAide Khata API
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/DoAide-Khata/backend
+Environment=PORT=3101
+# GEMINI_API_KEY, GOOGLE_CLIENT_ID, SESSION_SECRET, KHATA_DB_PATH live here (never in the frontend).
+EnvironmentFile=/opt/DoAide-Khata/backend/.env
+ExecStart=/opt/DoAide-Khata/backend/.venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 3101
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

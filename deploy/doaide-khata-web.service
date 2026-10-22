@@ -1,0 +1,14 @@
+[Unit]
+Description=DoAide Khata Web (serve built frontend)
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/DoAide-Khata/frontend
+ExecStart=/usr/bin/npx serve -s dist -l 3102
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,9 @@
+{
+  "name": "DoAide Khata — Digital Udhar Khata",
+  "short_name": "Khata",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F0FDF4",
+  "theme_color": "#047857",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}

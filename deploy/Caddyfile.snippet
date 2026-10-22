@@ -1,0 +1,15 @@
+# Append to the bind-mounted Caddyfile with an editor (never sed -i), then reload Caddy.
+khata.doaide.com {
+    handle /api/* {
+        reverse_proxy localhost:3101
+    }
+    handle /sitemap.xml {
+        reverse_proxy localhost:3101
+    }
+    handle /robots.txt {
+        reverse_proxy localhost:3101
+    }
+    handle {
+        reverse_proxy localhost:3102
+    }
+}
