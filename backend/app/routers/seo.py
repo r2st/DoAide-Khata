@@ -14,7 +14,13 @@ ROUTES = [
     ("/guides", "0.7", "weekly"),
 ]
 # Static guides rendered by frontend/scripts/build-guides.mjs; keep in sync with frontend/guides/content.mjs.
-GUIDES = ["best-free-udhar-khata-app", "whatsapp-payment-reminder-message", "how-to-maintain-udhar-khata-kirana"]
+GUIDES = [
+    "best-free-udhar-khata-app",
+    "whatsapp-payment-reminder-message",
+    "how-to-maintain-udhar-khata-kirana",
+    "digital-bahi-khata-vs-paper-ledger",
+    "upi-payments-for-kirana-shops",
+]
 ROUTES += [(f"/guides/{slug}", "0.7", "monthly") for slug in GUIDES]
 
 

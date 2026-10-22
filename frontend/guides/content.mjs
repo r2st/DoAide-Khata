@@ -214,4 +214,156 @@ export const guides = [
     ],
     cta: app,
   },
+  {
+    slug: 'digital-bahi-khata-vs-paper-ledger',
+    title: 'Digital Bahi Khata vs Paper Ledger: Which Is Better for Your Shop? | DoAide Khata',
+    h1: 'Digital bahi khata vs paper ledger: which is better for your shop?',
+    description:
+      'An honest comparison of a paper bahi khata and a digital khata app for Indian shopkeepers: cost, speed, disputes, collections, backups, privacy, and how to switch without losing a single entry.',
+    updated: '2026-10-22',
+    intro: `<p>The red cloth-bound <em>bahi khata</em> has kept Indian shops running for generations. Many shopkeepers still trust it more than any phone. Others have moved their udhar to an app and never looked back. Both groups have good reasons.</p>
+<p>This guide compares a paper ledger and a digital khata honestly — where paper still wins, where digital clearly wins, and how to switch without losing a single entry if you decide to.</p>`,
+    sections: [
+      [
+        'at-a-glance',
+        'Paper vs digital at a glance',
+        `<table>
+<thead><tr><th></th><th>Paper bahi khata</th><th>Digital khata app</th></tr></thead>
+<tbody>
+<tr><td>Cost</td><td>₹100–300 per register</td><td>Free apps exist, including <a href="/">DoAide Khata</a></td></tr>
+<tr><td>Making an entry</td><td>Pen and page; quick once you know the page</td><td>Two taps, or speak it with voice entry</td></tr>
+<tr><td>Customer balance</td><td>Add up the page by hand</td><td>Shown instantly after every entry</td></tr>
+<tr><td>Reminders</td><td>Phone call or in person</td><td>WhatsApp message with amount and UPI link</td></tr>
+<tr><td>Disputes</td><td>Your word against theirs</td><td>Dated entries and a PDF statement to share</td></tr>
+<tr><td>Loss and damage</td><td>Water, fire, termites, a misplaced register</td><td>Backups and sync if you turn them on</td></tr>
+<tr><td>Works without power or internet</td><td>Always</td><td>Needs a charged phone; many apps work offline</td></tr>
+<tr><td>Learning curve</td><td>None</td><td>A day or two</td></tr>
+</tbody></table>`,
+      ],
+      [
+        'paper-wins',
+        'Where the paper ledger still wins',
+        `<ul>
+<li><strong>No phone, no problem.</strong> A register never runs out of battery, never needs an update and works in a power cut.</li>
+<li><strong>Anyone can use it.</strong> An elderly parent or a new helper can write in it without learning anything.</li>
+<li><strong>Customers trust what they can see.</strong> Some customers like watching the entry being written and signing next to it.</li>
+<li><strong>It is private by default.</strong> Nobody outside the shop sees it.</li>
+</ul>
+<p>If you give udhar to fewer than ten customers and they pay reliably, a paper register may be all you need.</p>`,
+      ],
+      [
+        'digital-wins',
+        'Where a digital khata clearly wins',
+        `<p><strong>1. Collections.</strong> This is the big one. Most udhar is not lost to bad customers; it is lost to forgetting. A digital khata shows everyone with a balance in one list, sorted by amount, and lets you send each of them a polite WhatsApp reminder with a UPI payment link in one tap. Shop owners who switch usually say collections are where they feel the difference first. See our <a href="/guides/whatsapp-payment-reminder-message">reminder message templates</a>.</p>
+<p><strong>2. No arithmetic errors.</strong> A page of 40 entries added by hand at 10 pm will have a mistake sooner or later. The app recalculates the balance after every entry.</p>
+<p><strong>3. Fewer arguments.</strong> When a customer says “I paid ₹500 last week”, you can scroll to the exact date. If they still disagree, send a statement — dated entries settle most disputes calmly.</p>
+<p><strong>4. Nothing is lost.</strong> A register that gets wet in the monsoon takes months of udhar with it. With backup turned on, a lost or broken phone does not mean lost money.</p>
+<p><strong>5. You see the whole business.</strong> Your total outstanding udhar is one number at the top of the screen. If it is more than one or two weeks of sales, you know it is time to collect before giving more credit.</p>`,
+      ],
+      [
+        'worries',
+        'Common worries about going digital',
+        `<p><strong>“What if my phone is lost?”</strong> Turn on backup. In DoAide Khata you can sign in with Google to sync across phones, or download a backup file from <a href="/settings">Settings</a> and keep it safe.</p>
+<p><strong>“Is my customers’ data safe?”</strong> Ask any app where the data lives. DoAide Khata keeps entries on your phone unless you choose to sign in for sync, and it needs no signup to start.</p>
+<p><strong>“My customers won’t like it.”</strong> Most customers prefer it: they get a clear message with the amount and can pay from their UPI app without visiting the shop.</p>
+<p><strong>“I’m not good with phones.”</strong> A good khata app has just two big buttons — <em>Gave</em> (दिए) and <em>Got</em> (मिले) — and works in Hindi. If you can send a WhatsApp message, you can use it.</p>`,
+      ],
+      [
+        'switch',
+        'How to switch from paper to digital in one evening',
+        `<ol>
+<li>Open <a href="/">khata.doaide.com</a> on your phone — no download or signup needed — and add it to your home screen.</li>
+<li>Go through your register and add each customer with a balance, with their mobile number.</li>
+<li>Enter each customer’s current balance as one <em>Gave</em> entry with the note “opening balance from register”.</li>
+<li>Add your UPI ID in <a href="/settings">Settings</a> so every reminder carries a payment link.</li>
+<li>From the next morning, record each new udhar and payment on the phone at the counter.</li>
+<li>Keep the paper register in the drawer for a month. Once the app balances match what you expect, retire it.</li>
+</ol>
+<p>Many shops keep a hybrid for a while — paper at the counter during rush hour and entries typed in at closing. That is fine, as long as everything reaches the app the same day. For a full daily and monthly routine, read <a href="/guides/how-to-maintain-udhar-khata-kirana">how to maintain an udhar khata</a>.</p>`,
+      ],
+      [
+        'verdict',
+        'The verdict',
+        `<p>If udhar is a small part of your business, paper is fine. If you give credit to more than a dozen customers, if collections take your time every month, or if a lost register would hurt, a free digital khata pays for itself in the first month — because it costs nothing and brings money in faster. You don’t have to choose forever: try it alongside your register for a few weeks and decide for yourself.</p>
+<p>Comparing apps? Read <a href="/guides/best-free-udhar-khata-app">what to look for in a free udhar khata app</a>.</p>`,
+      ],
+    ],
+    faqs: [
+      ['Is a digital bahi khata legally valid?', 'A khata is a private record of credit between you and your customer, and dated electronic records are generally accepted as evidence in India. For tax purposes, keep proper bills and books as your accountant advises.'],
+      ['Can I use a digital khata without internet?', 'DoAide Khata saves entries on your phone, so you can keep recording in the shop even when the connection is weak. Reminders need WhatsApp, which needs internet.'],
+      ['Will I lose data if I change my phone?', 'Not if you turn on backup. Sign in with Google to sync, or download a backup file from Settings before you switch phones.'],
+      ['Should I keep my paper register after switching?', 'Keep it for a few weeks until you are confident the balances in the app are right, then store it safely as an old record.'],
+    ],
+    cta: app,
+  },
+  {
+    slug: 'upi-payments-for-kirana-shops',
+    title: 'UPI Payments for Kirana Shops: QR Code, Payment Links and Udhar Collection | DoAide Khata',
+    h1: 'UPI payments for kirana shops: QR codes, payment links and collecting udhar',
+    description:
+      'A practical guide to accepting UPI at a kirana or small shop: merchant QR vs personal UPI ID, charges, soundboxes, payment links for udhar, matching payments to customers, and avoiding fake-payment frauds.',
+    updated: '2026-10-22',
+    intro: `<p>UPI has become the default way to pay at Indian shops. Customers who would once have said “baad mein de dunga” can now pay from their phone in seconds, and that changes how you handle udhar too.</p>
+<p>This guide covers what a small shop owner needs to know: how to set up UPI properly, what it costs, how to use payment links to collect udhar, how to keep payments matched to the right customer, and how to avoid the common frauds.</p>`,
+    sections: [
+      [
+        'setup',
+        'Personal UPI ID vs merchant QR: which should you use?',
+        `<table>
+<thead><tr><th></th><th>Personal UPI ID</th><th>Merchant (business) QR</th></tr></thead>
+<tbody>
+<tr><td>Setup</td><td>Already have one</td><td>Free from GPay for Business, PhonePe Business, Paytm for Business or your bank</td></tr>
+<tr><td>Shows shop name to customer</td><td>No, shows your personal name</td><td>Yes</td></tr>
+<tr><td>Payment alerts / soundbox</td><td>Phone notification only</td><td>Business app alerts; soundbox available</td></tr>
+<tr><td>Separate business records</td><td>Mixed with personal payments</td><td>Clear statement of shop payments</td></tr>
+</tbody></table>
+<p>For a shop, a merchant QR is worth the ten minutes it takes to set up. Customers see your shop name, which builds trust, and your shop payments stay separate from personal transfers — useful at month end and if you ever apply for a business loan.</p>`,
+      ],
+      [
+        'charges',
+        'Does UPI cost the shopkeeper anything?',
+        `<p>For normal UPI payments from a customer’s bank account to your shop, there is no merchant discount rate (MDR) — the fee card machines charge — under current government policy. Some cases can carry charges, such as payments made using a credit card linked to UPI at larger merchants, or optional services like a rented soundbox. Check the terms of your payment app or bank before signing up for any paid add-on.</p>`,
+      ],
+      [
+        'udhar-links',
+        'Using UPI payment links to collect udhar',
+        `<p>The QR on your counter only works when the customer is in the shop. For udhar, you need the payment to reach the customer at home. That is what a UPI payment link does.</p>
+<p>A UPI link looks like <code>upi://pay?pa=yourshop@okbank&amp;pn=Sharma%20Kirana&amp;am=1250&amp;cu=INR</code>. When the customer taps it on their phone, GPay, PhonePe, Paytm or BHIM opens with your shop name and the amount already filled in. They just enter their PIN.</p>
+<p>Building these links by hand for 30 customers is tedious. In <a href="/">DoAide Khata</a>, add your UPI ID once in <a href="/settings">Settings</a>; then open any customer and tap <strong>Remind</strong>. WhatsApp opens with the balance and a ready-made UPI link in Hindi or English. For wording ideas, see our <a href="/guides/whatsapp-payment-reminder-message">WhatsApp reminder templates</a>.</p>`,
+      ],
+      [
+        'matching',
+        'Matching UPI payments to the right customer',
+        `<p>The most common problem with UPI udhar payments is not collecting the money — it is remembering who paid. A payment from “R K Verma” in your app may be Ramesh’s son paying Ramesh’s account.</p>
+<ul>
+<li><strong>Record it the moment you see it.</strong> When the payment alert comes, open the customer in your khata and add a <em>Got</em> entry with the note “UPI”.</li>
+<li><strong>Ask customers to add a note.</strong> A UPI payment can carry a remark — ask regular customers to type their name or “khata”.</li>
+<li><strong>Reconcile weekly.</strong> Once a week, compare the UPI app’s statement with the <em>Got</em> entries in your khata. Anything unmatched, call and ask.</li>
+<li><strong>Record part payments as they come.</strong> ₹500 now and ₹750 next week are two separate <em>Got</em> entries; the balance updates automatically.</li>
+</ul>`,
+      ],
+      [
+        'fraud',
+        'Avoiding UPI frauds at the counter',
+        `<ul>
+<li><strong>Fake payment screenshots.</strong> Never accept a screenshot as proof. Wait for your own app notification or soundbox announcement, or check your bank balance.</li>
+<li><strong>“I sent extra by mistake, please return it.”</strong> Check your actual statement before refunding anything. Requests to “approve” a collect request to receive money are always fraud — you never enter your PIN to receive money.</li>
+<li><strong>Swapped QR stickers.</strong> Check your printed QR every morning; fraudsters sometimes paste their own over it.</li>
+<li><strong>Calls claiming to be from your bank or payment app.</strong> No genuine bank asks for your UPI PIN or OTP.</li>
+</ul>`,
+      ],
+      [
+        'gst',
+        'UPI, bills and GST',
+        `<p>UPI is just a way of paying; it does not change the GST on a sale. If you are GST-registered, issue a proper bill whether the customer pays in cash, UPI or on udhar. <a href="/bill">DoAide Khata’s bill page</a> makes a GST bill with CGST + SGST (or IGST), and can add the total to the customer’s khata. To check a rate, use the <a href="https://gst.doaide.com">free GST rate finder</a>.</p>`,
+      ],
+    ],
+    faqs: [
+      ['Is there a charge for accepting UPI payments at my shop?', 'Normal UPI payments from a customer’s bank account carry no merchant discount rate under current policy. Optional add-ons like a rented soundbox, or some credit-card-on-UPI payments, may cost extra.'],
+      ['How can I send a UPI payment link on WhatsApp?', 'Create a upi://pay link with your UPI ID and the amount, or let DoAide Khata build it: add your UPI ID in Settings and tap Remind on any customer.'],
+      ['Should I use my personal UPI ID for the shop?', 'It works, but a free merchant QR from a business payment app shows your shop name and keeps shop payments separate from personal ones.'],
+      ['Is a payment screenshot proof of payment?', 'No. Screenshots can be faked. Always confirm the payment in your own UPI app, soundbox or bank statement before handing over goods or clearing udhar.'],
+    ],
+    cta: ['/', 'Collect udhar on UPI with a free khata'],
+  },
 ]
