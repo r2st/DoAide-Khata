@@ -12,11 +12,12 @@ import { KhataProvider } from './state/KhataContext'
 // Home is the landing page and stays in the main bundle; the rest load on demand.
 const CustomerLedger = lazyPage(() => import('./pages/CustomerLedger'))
 const Bill = lazyPage(() => import('./pages/Bill'))
+const Summary = lazyPage(() => import('./pages/Summary'))
 const Settings = lazyPage(() => import('./pages/Settings'))
 const Help = lazyPage(() => import('./pages/Help'))
 const ReminderTool = lazyPage(() => import('./pages/ReminderTool'))
 
-export const PAGES = [CustomerLedger, Bill, Settings, Help, ReminderTool]
+export const PAGES = [CustomerLedger, Bill, Summary, Settings, Help, ReminderTool]
 export const preloadPages = () => Promise.all(PAGES.map((p) => p.preload()))
 
 function NotFound() {
@@ -39,6 +40,7 @@ export function AppRoutes() {
         <Route index element={<Home />} />
         <Route path="customer/:id" element={<CustomerLedger />} />
         <Route path="bill" element={<Bill />} />
+        <Route path="summary" element={<Summary />} />
         <Route path="settings" element={<Settings />} />
         <Route path="help" element={<Help />} />
         <Route path="tools/whatsapp-reminder" element={<ReminderTool />} />

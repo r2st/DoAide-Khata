@@ -8,6 +8,7 @@ import { useKhata } from '../state/KhataContext'
 
 const NAV = [
   { to: '/', key: 'nav.khata', icon: '📒', end: true },
+  { to: '/summary', key: 'nav.summary', icon: '📊' },
   { to: '/bill', key: 'nav.bill', icon: '🧾' },
   { to: '/settings', key: 'nav.settings', icon: '⚙️' },
   { to: '/help', key: 'nav.help', icon: '❓' },
@@ -110,7 +111,7 @@ export default function Layout() {
       </footer>
 
       <nav className="no-print fixed inset-x-0 bottom-0 z-30 border-t border-gray-200 bg-white pb-[env(safe-area-inset-bottom)] sm:hidden">
-        <div className="mx-auto grid max-w-2xl grid-cols-4">
+        <div className="mx-auto grid max-w-2xl grid-cols-5">
           {NAV.map((n) => (
             <NavLink
               key={n.to}

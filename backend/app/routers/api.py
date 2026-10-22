@@ -11,7 +11,7 @@ from app.config import settings
 from app.engines.gst import compute_bill
 from app.engines.merge import merge_ledgers
 from app.engines.parse import parse_transaction
-from app.engines.pdf import bill_pdf, ledger_pdf
+from app.engines.pdf import bill_pdf, ledger_pdf, summary_pdf
 
 router = APIRouter(prefix="/api")
 
@@ -140,3 +140,27 @@ class LedgerPdfRequest(BaseModel):
 def pdf_ledger(body: LedgerPdfRequest):
     pdf = ledger_pdf(body.shop, body.customer, [t.model_dump() for t in body.transactions])
     return Response(pdf, media_type="application/pdf", headers={"Content-Disposition": 'attachment; filename="khata-statement.pdf"'})
+
+
+class SummaryDay(BaseModel):
+    date: str = Field(max_length=20)
+    received: float = Field(default=0, ge=0, le=1_000_000_000)
+    given: float = Field(default=0, ge=0, le=1_000_000_000)
+
+
+class SummaryBalance(BaseModel):
+    name: str = Field(max_length=120)
+    balance: float = Field(ge=-1_000_000_000, le=1_000_000_000)
+
+
+class SummaryPdfRequest(BaseModel):
+    shop: dict = Field(default_factory=dict)
+    period: str = Field(default="", max_length=60)
+    days: list[SummaryDay] = Field(default_factory=list, max_length=400)
+    balances: list[SummaryBalance] = Field(default_factory=list, max_length=10_000)
+
+
+@router.post("/pdf/summary")
+def pdf_summary(body: SummaryPdfRequest):
+    pdf = summary_pdf(body.shop, body.period, [d.model_dump() for d in body.days], [b.model_dump() for b in body.balances])
+    return Response(pdf, media_type="application/pdf", headers={"Content-Disposition": 'attachment; filename="khata-summary.pdf"'})

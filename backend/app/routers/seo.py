@@ -9,6 +9,7 @@ router = APIRouter()
 ROUTES = [
     ("/", "1.0", "daily"),
     ("/bill", "0.8", "weekly"),
+    ("/summary", "0.8", "weekly"),
     ("/help", "0.7", "monthly"),
     ("/settings", "0.4", "monthly"),
     ("/guides", "0.7", "weekly"),

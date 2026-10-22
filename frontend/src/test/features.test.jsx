@@ -3,9 +3,11 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import ErrorBoundary from '../components/ErrorBoundary'
 import { api, isOfflineError } from '../lib/api'
 import { lazyPage } from '../lib/lazyPage'
+import { todayISO } from '../lib/format'
 import { ruleParse } from '../lib/parse'
+import { monthRange, shiftMonth } from '../pages/Summary'
 import { DATA_KEY } from '../state/KhataContext'
-import { customer, renderApp } from './utils'
+import { customer, customer as customerRow, renderApp, tx as txRow } from './utils'
 
 afterEach(() => {
   vi.restoreAllMocks()
@@ -146,5 +148,35 @@ describe('WhatsApp reminder tool (no login)', () => {
   it('is linked from the empty khata', () => {
     renderApp('/')
     expect(screen.getByRole('link', { name: /Try the reminder maker/ })).toHaveAttribute('href', '/tools/whatsapp-reminder')
+  })
+})
+
+describe('daily summary page', () => {
+  it('shows day rows, month totals and the net direction', async () => {
+    const today = todayISO()
+    renderApp('/summary', {
+      state: {
+        customers: [customerRow('a', 'Ramesh')],
+        transactions: [txRow('1', 'a', 'gave', 500, today), txRow('2', 'a', 'received', 200, today)],
+        bills: [],
+        settings: {},
+      },
+    })
+    expect(await screen.findByTestId('summary-month')).toBeInTheDocument()
+    expect(screen.getByText('Month total')).toBeInTheDocument()
+    expect(screen.getAllByText('₹500').length).toBeGreaterThan(0)
+    expect(screen.getAllByText('-₹300').length).toBeGreaterThan(0)
+    expect(screen.getByText(/You gave more udhar than you received/)).toBeInTheDocument()
+  })
+
+  it('tells the shopkeeper when the month is empty', async () => {
+    renderApp('/summary')
+    expect(await screen.findByText(/No entries this month/)).toBeInTheDocument()
+  })
+
+  it('moves between months', () => {
+    expect(shiftMonth('2026-01', -1)).toBe('2025-12')
+    expect(shiftMonth('2026-12', 1)).toBe('2027-01')
+    expect(monthRange('2026-02')).toEqual({ from: '2026-02-01', to: '2026-02-28' })
   })
 })

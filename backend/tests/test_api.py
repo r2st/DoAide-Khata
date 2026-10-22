@@ -33,6 +33,7 @@ def test_sitemap_is_xml_with_all_routes(client):
     assert locs == [
         "https://khata.doaide.com/",
         "https://khata.doaide.com/bill",
+        "https://khata.doaide.com/summary",
         "https://khata.doaide.com/help",
         "https://khata.doaide.com/settings",
         "https://khata.doaide.com/guides",
@@ -100,6 +101,30 @@ def test_ledger_pdf_handles_unicode_names(client):
 
 def test_ledger_pdf_rejects_bad_type(client):
     resp = client.post("/api/pdf/ledger", json={"transactions": [{"date": "x", "type": "stolen", "amount": 1}]})
+    assert resp.status_code == 422
+
+
+def test_summary_pdf(client):
+    resp = client.post(
+        "/api/pdf/summary",
+        json={
+            "shop": {"shopName": "Sharma Kirana"},
+            "period": "October 2026",
+            "days": [
+                {"date": "2026-10-01", "received": 200, "given": 500},
+                {"date": "2026-10-02", "received": 700, "given": 0},
+            ],
+            "balances": [{"name": "रमेश", "balance": 300}, {"name": "Sita", "balance": -50}],
+        },
+    )
+    assert resp.status_code == 200
+    assert resp.headers["content-type"] == "application/pdf"
+    assert resp.content.startswith(b"%PDF")
+    assert 'filename="khata-summary.pdf"' in resp.headers["content-disposition"]
+
+
+def test_summary_pdf_rejects_negative_amounts(client):
+    resp = client.post("/api/pdf/summary", json={"days": [{"date": "2026-10-01", "received": -5, "given": 0}]})
     assert resp.status_code == 422
 
 

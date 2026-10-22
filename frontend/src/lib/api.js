@@ -44,6 +44,7 @@ export const api = {
   parse: (text, customers) => request('/api/ai/parse', { method: 'POST', body: { text, customers }, timeout: 12_000 }),
   billPdf: (bill) => request('/api/pdf/bill', { method: 'POST', body: bill, raw: true }),
   ledgerPdf: (data) => request('/api/pdf/ledger', { method: 'POST', body: data, raw: true }),
+  summaryPdf: (data) => request('/api/pdf/summary', { method: 'POST', body: data, raw: true }),
 }
 
 // On phones, hand the PDF to the share sheet (WhatsApp etc.); otherwise download it.

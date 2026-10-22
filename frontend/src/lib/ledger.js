@@ -88,6 +88,27 @@ export function dashboard({ customers, transactions }, today, { top = 5, overdue
   }
 }
 
+export function dailySummary(transactions, fromISO, toISO) {
+  const byDay = {}
+  for (const t of live(transactions)) {
+    if (!t.date || t.date < fromISO || t.date > toISO) continue
+    const day = (byDay[t.date] ||= { date: t.date, received: 0, given: 0 })
+    const amount = Number(t.amount) || 0
+    if (t.type === 'received') day.received = round2(day.received + amount)
+    else day.given = round2(day.given + amount)
+  }
+  const days = Object.values(byDay)
+    .map((d) => ({ ...d, net: round2(d.received - d.given) }))
+    .sort((a, b) => (a.date < b.date ? 1 : -1))
+  let received = 0
+  let given = 0
+  for (const d of days) {
+    received = round2(received + d.received)
+    given = round2(given + d.given)
+  }
+  return { days, totals: { received, given, net: round2(received - given) } }
+}
+
 export function round2(n) {
   return Math.round((n + Number.EPSILON) * 100) / 100
 }

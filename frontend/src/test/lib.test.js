@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { daysBetween, formatINR, initials, todayISO } from '../lib/format'
 import { computeBill, isValidGSTIN, nextBillNumber } from '../lib/gst'
 import { STRINGS, translate } from '../lib/i18n'
-import { customerBalances, dashboard, runningLedger } from '../lib/ledger'
+import { customerBalances, dailySummary, dashboard, runningLedger } from '../lib/ledger'
 import { mergeLedgers, mergeRecords } from '../lib/merge'
 import { entryMessage, isValidIndianMobile, isValidUpi, normalizePhone, reminderMessage, upiLink, whatsappLink } from '../lib/whatsapp'
 import { reducer, emptyState } from '../state/KhataContext'
@@ -70,6 +70,25 @@ describe('ledger', () => {
     }
     const d = dashboard(state, '2026-10-03')
     expect(d.overdue.map((c) => [c.id, c.days])).toEqual([['a', 63]])
+  })
+
+  it('groups the daily summary newest-first within the range', () => {
+    const { days, totals } = dailySummary(
+      [
+        tx('1', 'a', 'gave', 500, '2026-10-01'),
+        tx('2', 'a', 'received', 200, '2026-10-01'),
+        tx('3', 'b', 'received', 700.5, '2026-10-02'),
+        tx('4', 'a', 'gave', 999, '2026-09-30'), // outside range
+        tx('5', 'a', 'gave', 999, '2026-10-02', { deleted: true }),
+      ],
+      '2026-10-01',
+      '2026-10-31',
+    )
+    expect(days).toEqual([
+      { date: '2026-10-02', received: 700.5, given: 0, net: 700.5 },
+      { date: '2026-10-01', received: 200, given: 500, net: -300 },
+    ])
+    expect(totals).toEqual({ received: 900.5, given: 500, net: 400.5 })
   })
 })
 

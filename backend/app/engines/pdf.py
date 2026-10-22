@@ -125,6 +125,61 @@ def ledger_pdf(shop: dict, customer: dict, transactions: list[dict]) -> bytes:
     return buf.getvalue()
 
 
+def summary_pdf(shop: dict, period: str, days: list[dict], balances: list[dict]) -> bytes:
+    """Month summary: day-wise received/given/net plus every customer's outstanding balance."""
+    font = _font()
+    st = _styles(font)
+    buf = BytesIO()
+    doc = SimpleDocTemplate(buf, pagesize=A4, leftMargin=14 * mm, rightMargin=14 * mm, topMargin=14 * mm, bottomMargin=14 * mm)
+
+    total_in = round(sum(float(d.get("received", 0)) for d in days), 2)
+    total_out = round(sum(float(d.get("given", 0)) for d in days), 2)
+    net = round(total_in - total_out, 2)
+
+    day_rows: list[list] = [["Date", "Received (Mile)", "Given (Diye)", "Net"]]
+    for d in sorted(days, key=lambda r: r.get("date", "")):
+        received = float(d.get("received", 0))
+        given = float(d.get("given", 0))
+        day_rows.append(
+            [
+                d.get("date", ""),
+                money(received, font) if received else "",
+                money(given, font) if given else "",
+                money(round(received - given, 2), font),
+            ]
+        )
+    day_rows.append(["Total", money(total_in, font), money(total_out, font), money(net, font)])
+
+    story = [
+        *_shop_block(shop, st),
+        Spacer(1, 6 * mm),
+        Paragraph(f"<b>Daily summary:</b> {_esc(period)}", st["body"]),
+        Paragraph(f"<b>Net ({'collected more' if net >= 0 else 'gave more'}):</b> {money(net, font)}", st["body"]),
+        Spacer(1, 4 * mm),
+        _table(day_rows, [40 * mm, 46 * mm, 46 * mm, 50 * mm], font, 1),
+    ]
+
+    if balances:
+        balance_rows: list[list] = [["Customer", "Balance"]]
+        outstanding = 0.0
+        for b in balances:
+            amount = float(b.get("balance", 0))
+            outstanding += amount
+            label = "Lena hai" if amount > 0 else "Dena hai"
+            balance_rows.append([Paragraph(_esc(b.get("name")), st["body"]), f"{money(abs(amount), font)} ({label})"])
+        balance_rows.append(["Total outstanding", money(round(outstanding, 2), font)])
+        story += [
+            Spacer(1, 6 * mm),
+            Paragraph("<b>Customer balances</b>", st["body"]),
+            Spacer(1, 2 * mm),
+            _table(balance_rows, [110 * mm, 72 * mm], font, 1),
+        ]
+
+    story += [Spacer(1, 6 * mm), _footer(st)]
+    doc.build(story)
+    return buf.getvalue()
+
+
 def bill_pdf(shop: dict, bill: dict) -> bytes:
     font = _font()
     st = _styles(font)
