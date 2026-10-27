@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import Seo from '../components/Seo'
+import { ROUTE_META } from '../routeMeta'
 import { formatINR, todayISO } from '../lib/format'
 import { useT } from '../lib/i18n'
 import { live, round2 } from '../lib/ledger'
@@ -190,9 +191,8 @@ export default function Reports() {
   return (
     <>
       <Seo
+        {...ROUTE_META['/reports']}
         title={t('reports.title') + ' — DoAide Khata'}
-        description="Monthly and yearly reports with charts for your shop khata. Track income, expenses, and category-wise breakdown."
-        path="/reports"
       />
       <h1 className="mb-1 text-xl font-bold">{t('reports.title')}</h1>
       <p className="mb-4 text-sm text-gray-600">{t('reports.intro')}</p>

@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { api, deliverPdf } from '../lib/api'
 import Seo from '../components/Seo'
+import { ROUTE_META } from '../routeMeta'
 import { formatDate, formatINR, todayISO } from '../lib/format'
 import { useT } from '../lib/i18n'
 import { customerBalances, dailySummary, live } from '../lib/ledger'
@@ -68,9 +69,7 @@ export default function Summary() {
   return (
     <>
       <Seo
-        title="Daily Summary & Profit-Loss — DoAide Khata | दैनिक सारांश"
-        description="See day-by-day collection, udhar given and net cash for your shop, month by month. Export your full khata summary as a PDF. Free, no login."
-        path="/summary"
+        {...ROUTE_META['/summary']}
       />
       <h1 className="mb-1 text-xl font-bold">{t('sum.title')}</h1>
       <p className="mb-4 text-sm text-gray-600">{t('sum.intro')}</p>

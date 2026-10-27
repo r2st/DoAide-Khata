@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import BackLink from '../components/BackLink'
 import Seo, { SITE_URL } from '../components/Seo'
+import { ROUTE_META } from '../routeMeta'
 import { useT } from '../lib/i18n'
 import { isValidIndianMobile, isValidUpi, reminderMessage, whatsappLink } from '../lib/whatsapp'
 import { useKhata } from '../state/KhataContext'
@@ -78,9 +79,7 @@ export default function ReminderTool() {
   return (
     <>
       <Seo
-        title="Free WhatsApp Payment Reminder Message Generator (Hindi & English) | DoAide Khata"
-        description="Write a polite udhar payment reminder for your customer in Hindi or English, with a UPI pay link, and send it on WhatsApp in one tap. Free, no login."
-        path="/tools/whatsapp-reminder"
+        {...ROUTE_META['/tools/whatsapp-reminder']}
         jsonLd={[toolLd]}
       />
       <BackLink />

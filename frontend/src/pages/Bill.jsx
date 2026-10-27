@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Seo, { webAppLd } from '../components/Seo'
+import { ROUTE_META } from '../routeMeta'
 import { api, deliverPdf } from '../lib/api'
 import { formatDate, formatINR, todayISO } from '../lib/format'
 import { GST_RATES, computeBill, nextBillNumber } from '../lib/gst'
@@ -104,9 +105,7 @@ export default function Bill() {
   return (
     <>
       <Seo
-        title="Free GST Bill Maker for Shopkeepers — PDF Invoice & Receipt | DoAide Khata"
-        description="Make a GST bill or cash receipt in seconds: CGST/SGST or IGST calculated automatically, download PDF, share on WhatsApp with a UPI payment link. Free, no login."
-        path="/bill"
+        {...ROUTE_META['/bill']}
         jsonLd={[{ ...webAppLd, name: 'DoAide Khata GST Bill Maker', url: 'https://khata.doaide.com/bill' }]}
       />
       <h1 className="mb-1 text-2xl font-bold">{t('bill.title')}</h1>

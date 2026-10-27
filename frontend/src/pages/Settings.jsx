@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import GoogleSignIn from '../components/GoogleSignIn'
 import Seo from '../components/Seo'
+import { ROUTE_META } from '../routeMeta'
 import { api } from '../lib/api'
 import { isValidGSTIN } from '../lib/gst'
 import { useT } from '../lib/i18n'
@@ -74,9 +75,7 @@ export default function Settings() {
   return (
     <>
       <Seo
-        title="Settings — Shop details, UPI & backup | DoAide Khata"
-        description="Set your shop name, GSTIN and UPI ID for payment reminders and bills. Back up your khata or sign in with Google to sync across phones."
-        path="/settings"
+        {...ROUTE_META['/settings']}
       />
       <h1 className="mb-4 text-2xl font-bold">{t('settings.title')}</h1>
 

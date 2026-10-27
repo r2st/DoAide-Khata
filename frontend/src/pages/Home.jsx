@@ -6,6 +6,7 @@ import Modal from '../components/Modal'
 import Onboarding from '../components/Onboarding'
 import QuickEntry from '../components/QuickEntry'
 import Seo, { webAppLd } from '../components/Seo'
+import { ROUTE_META } from '../routeMeta'
 import { formatDate, formatINR, initials, todayISO } from '../lib/format'
 import { useT } from '../lib/i18n'
 import { customerBalances, dashboard, lastActivity, live } from '../lib/ledger'
@@ -70,9 +71,7 @@ export default function Home() {
   return (
     <>
       <Seo
-        title="DoAide Khata — Free Digital Udhar Khata App for Shopkeepers | डिजिटल खाता"
-        description="Free digital udhar khata for Indian shopkeepers. Track who owes you, send WhatsApp payment reminders with UPI links, make GST bills, export PDF. Hindi + English, no login needed."
-        path="/"
+        {...ROUTE_META['/']}
         jsonLd={[webAppLd]}
       />
       <h1 className="sr-only">DoAide Khata — {t('tagline')}</h1>

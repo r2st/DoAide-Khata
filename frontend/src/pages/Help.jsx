@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import BackLink from '../components/BackLink'
 import Seo from '../components/Seo'
+import { ROUTE_META } from '../routeMeta'
 import { useT } from '../lib/i18n'
 import { ONBOARDED_KEY, removeKey } from '../lib/storage'
 
@@ -67,9 +68,7 @@ export default function Help() {
   return (
     <>
       <Seo
-        title="Help & FAQ — How to use the digital udhar khata | DoAide Khata"
-        description="How to record udhar, send WhatsApp payment reminders with UPI, add entries by voice, make GST bills and back up your khata. हिंदी में भी।"
-        path="/help"
+        {...ROUTE_META['/help']}
         jsonLd={[faqLd]}
       />
       <BackLink />

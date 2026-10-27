@@ -2,13 +2,13 @@
   "rewrites": [
     { "source": "/guides/:slug([a-z0-9-]+)", "destination": "/guides/:slug/index.html" },
     { "source": "/guides", "destination": "/guides/index.html" },
-    { "source": "/bill", "destination": "/index.html" },
-    { "source": "/summary", "destination": "/index.html" },
-    { "source": "/reports", "destination": "/index.html" },
-    { "source": "/settings", "destination": "/index.html" },
-    { "source": "/help", "destination": "/index.html" },
-    { "source": "/tools/whatsapp-reminder", "destination": "/index.html" },
-    { "source": "/customer/:id", "destination": "/index.html" }
+    { "source": "/bill", "destination": "/bill/index.html" },
+    { "source": "/summary", "destination": "/summary/index.html" },
+    { "source": "/reports", "destination": "/reports/index.html" },
+    { "source": "/settings", "destination": "/settings/index.html" },
+    { "source": "/help", "destination": "/help/index.html" },
+    { "source": "/tools/whatsapp-reminder", "destination": "/tools/whatsapp-reminder/index.html" },
+    { "source": "/customer/:id", "destination": "/app-shell.html" }
   ],
   "headers": [
     { "source": "/sw.js", "headers": [{ "key": "Cache-Control", "value": "no-cache" }] },
