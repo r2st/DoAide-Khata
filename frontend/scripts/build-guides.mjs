@@ -28,6 +28,8 @@ function page({ title, description, path, ogType = 'article', jsonLd, body }) {
 <meta property="og:description" content="${esc(description)}" />
 <meta property="og:url" content="${url}" />
 <meta property="og:image" content="${site.url}/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="${esc(title)}" />
 <meta name="twitter:description" content="${esc(description)}" />
@@ -127,7 +129,20 @@ write(
     description: site.indexDescription,
     path: '/guides',
     ogType: 'website',
-    jsonLd: [crumbs([[site.name, '/'], ['Guides', '/guides']])],
+    jsonLd: [
+      crumbs([[site.name, '/'], ['Guides', '/guides']]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        name: site.indexH1,
+        itemListElement: guides.map((g, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          url: `${site.url}/guides/${g.slug}`,
+          name: g.h1,
+        })),
+      },
+    ],
     body: `<h1>${esc(site.indexH1)}</h1>\n<p>${esc(site.indexDescription)}</p>\n${cards}\n<a class="cta" href="/">${esc(site.indexCta)}</a>`,
   }),
 )
